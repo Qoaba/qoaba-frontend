@@ -1,5 +1,34 @@
-import { Test } from './components/TestComponent';
+import React from 'react';
+import { HeaderMenuColored } from './components/header';
 
 export default function Page() {
-  return <Test />;
+  const links = [
+    {
+      link: '/catalogue',
+      label: 'Catalogue',
+    },
+    {
+      link: '/community',
+      label: 'Community',
+    },
+    {
+      link: '/pricing',
+      label: 'Pricing',
+    },
+    {
+      link: '/account',
+      label: 'Account',
+    },
+    {
+      link: '/resources',
+      label: 'Resources',
+      links: [
+        { link: '/about', label: 'About' },
+        { link: '/settings', label: 'Settings' },
+      ],
+    },
+    // Add more link objects as needed
+  ];
+
+  return <HeaderMenuColored links={links} />;
 }
