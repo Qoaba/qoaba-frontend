@@ -1,5 +1,6 @@
 import React from 'react';
 import { HeaderMenuColored } from './components/header';
+import { FeaturesCards } from './components/content';
 
 export default function Page() {
   const links = [
@@ -30,5 +31,11 @@ export default function Page() {
     // Add more link objects as needed
   ];
 
-  return <HeaderMenuColored links={links} />;
+  return (
+    <div>
+      <HeaderMenuColored links={links} />
+      <FeaturesCards />
+    </div>
+  );
 }
+
