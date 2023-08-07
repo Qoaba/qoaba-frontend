@@ -1,40 +1,34 @@
 import React from 'react';
-import { HeaderMenuColored } from './components/header';
-import { FeaturesCards } from './components/content';
+import { HeaderMegaMenu } from './components/Header';
+import { FeaturesCards } from './components/HomeContent';
+import { FooterLinks } from './components/Footer';
 
 export default function Page() {
-  const links = [
+  const footerData = [
     {
-      link: '/catalogue',
-      label: 'Catalogue',
-    },
-    {
-      link: '/community',
-      label: 'Community',
-    },
-    {
-      link: '/pricing',
-      label: 'Pricing',
-    },
-    {
-      link: '/account',
-      label: 'Account',
-    },
-    {
-      link: '/resources',
-      label: 'Resources',
+      title: 'Products',
       links: [
-        { link: '/about', label: 'About' },
-        { link: '/settings', label: 'Settings' },
+        { label: 'Feature 1', link: '#' },
+        { label: 'Feature 2', link: '#' },
+        // Add more links as needed
       ],
     },
-    // Add more link objects as needed
-  ];
+    {
+      title: 'Resources',
+      links: [
+        { label: 'Documentation', link: '#' },
+        { label: 'Tutorials', link: '#' },
+        // Add more links as needed
+      ],
+    },
+    // Add more groups as needed
+  ];  
 
   return (
     <div>
-      <HeaderMenuColored links={links} />
+      <HeaderMegaMenu />
       <FeaturesCards />
+      <FooterLinks data={footerData} />
     </div>
   );
 }
