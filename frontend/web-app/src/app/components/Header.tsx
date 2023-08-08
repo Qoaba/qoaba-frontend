@@ -154,7 +154,8 @@ export function HeaderMegaMenu() {
     <Box pb={120}>
       <Header height={60} px="md">
         <Group position="apart" sx={{ height: '100%' }}>
-          <Image maw={120} src="./logo-text.svg"></Image>
+          
+          {theme.colorScheme === 'dark' ? (<Image maw={120} src="./logo-text-darkmode.svg" />) : <Image maw={120} src="./logo-text-lightmode.svg" />}
 
           <Group sx={{ height: '100%' }} spacing={0} className={classes.hiddenMobile}>
             <a href="#" className={classes.link}>
