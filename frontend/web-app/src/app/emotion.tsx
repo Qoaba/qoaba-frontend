@@ -3,6 +3,7 @@
 import { CacheProvider } from '@emotion/react';
 import { MantineProvider, ColorSchemeProvider, ColorScheme, useEmotionCache} from '@mantine/core';
 import { useHotkeys, useLocalStorage } from '@mantine/hooks';
+import { CustomFonts } from './components/CustomFonts';
 
 function RootStyleRegistry({ children }: { children: React.ReactNode }) {
   const cache = useEmotionCache();
@@ -22,6 +23,7 @@ function RootStyleRegistry({ children }: { children: React.ReactNode }) {
   return (
     <CacheProvider value={cache}>
       <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
+        <CustomFonts />
         <MantineProvider withGlobalStyles withNormalizeCSS
           theme={{
             fontFamily: 'Satoshi, sans-serif',
