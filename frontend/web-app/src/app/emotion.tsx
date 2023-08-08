@@ -1,34 +1,41 @@
-'use client';
+"use client";
 
 import { CacheProvider } from '@emotion/react';
-import { useEmotionCache, MantineProvider } from '@mantine/core';
-import { useServerInsertedHTML } from 'next/navigation';
+import { MantineProvider, ColorSchemeProvider, ColorScheme, useEmotionCache} from '@mantine/core';
+import { useHotkeys, useLocalStorage } from '@mantine/hooks';
 
-export default function RootStyleRegistry({ children }: { children: React.ReactNode }) {
+function RootStyleRegistry({ children }: { children: React.ReactNode }) {
   const cache = useEmotionCache();
   cache.compat = true;
 
-  useServerInsertedHTML(() => (
-    <style
-      data-emotion={`${cache.key} ${Object.keys(cache.inserted).join(' ')}`}
-      dangerouslySetInnerHTML={{
-        __html: Object.values(cache.inserted).join(' '),
-      }}
-    />
-  ));
+  const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
+    key: 'mantine-color-scheme',
+    defaultValue: 'light',
+    getInitialValueInEffect: true,
+  });
+
+  const toggleColorScheme = (value?: ColorScheme) =>
+    setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
+
+  useHotkeys([['mod+J', () => toggleColorScheme()]]);
 
   return (
     <CacheProvider value={cache}>
-      <MantineProvider withGlobalStyles withNormalizeCSS
-      theme = {{
-        fontFamily: "Satoshi, sans-serif",
-        colors: {
-          blue: ["#f3f0ff", "#e5dbff", "#d0bfff", "#b197fc", "#9775fa", "#845ef7", "#7950f2", "#7048e8", "#6741d9", "#5f3dc4"],
-        }
-      }}
-      >
-        {children}
-      </MantineProvider>
+      <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
+        <MantineProvider withGlobalStyles withNormalizeCSS
+          theme={{
+            fontFamily: 'Satoshi, sans-serif',
+            colorScheme,
+            colors: {
+              blue: ['#f3f0ff', '#e5dbff', '#d0bfff', '#b197fc', '#9775fa', '#845ef7', '#7950f2', '#7048e8', '#6741d9', '#5f3dc4'],
+            },
+          }}
+        >
+          {children}
+        </MantineProvider>
+      </ColorSchemeProvider>
     </CacheProvider>
   );
 }
+
+export default RootStyleRegistry;
