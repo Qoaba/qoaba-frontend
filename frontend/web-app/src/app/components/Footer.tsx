@@ -107,7 +107,7 @@ interface FooterLinksProps {
 }
 
 export function FooterLinks({ data }: FooterLinksProps) {
-  const { classes } = useStyles();
+  const { classes, theme} = useStyles();
 
   const groups = data.map((group) => {
     const links = group.links.map((link, index) => (
@@ -134,7 +134,9 @@ export function FooterLinks({ data }: FooterLinksProps) {
     <footer className={classes.footer}>
       <Container className={classes.inner}>
         <div className={classes.logo}>
-          <Image maw={80} src="./logo-text.svg"></Image>
+
+          {theme.colorScheme === 'dark' ? (<Image maw={80} src="./logo-text-darkmode.svg" />) : <Image maw={80} src="./logo-text-lightmode.svg" />}
+          
           <Text size="xs" color="dimmed" className={classes.description}>
             Join a global community that has achieved career success
           </Text>
@@ -147,7 +149,7 @@ export function FooterLinks({ data }: FooterLinksProps) {
         </Text>
 
         <Group spacing={0} className={classes.social} position="right" noWrap>
-          <ActionIcon size="lg">
+          <ActionIcon size="lg">{}
             <IconBrandTwitter size="1.05rem" stroke={1.5} />
           </ActionIcon>
           <ActionIcon size="lg">
