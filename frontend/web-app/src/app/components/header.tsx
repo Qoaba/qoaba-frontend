@@ -153,7 +153,7 @@ export function HeaderMegaMenu() {
     <Box pb={120}>
       <Header height={60} px="md">
         <Group position="apart" sx={{ height: '100%' }}>
-          {/* Place logo here, will probably require significant fiddiling */}
+          <Image maw={120} src="./logo-text.svg"></Image>
 
           <Group sx={{ height: '100%' }} spacing={0} className={classes.hiddenMobile}>
             <a href="#" className={classes.link}>

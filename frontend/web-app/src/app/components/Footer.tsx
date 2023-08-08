@@ -1,7 +1,7 @@
 "use client";
 
-import { createStyles, Text, Container, ActionIcon, Group, rem } from '@mantine/core';
-import { IconBrandTwitter, IconBrandYoutube, IconBrandInstagram } from '@tabler/icons-react';
+import { createStyles, Text, Container, ActionIcon, Group, rem, Image } from '@mantine/core';
+import { IconBrandTwitter, IconBrandYoutube, IconBrandInstagram} from '@tabler/icons-react';
 
 const useStyles = createStyles((theme) => ({
   footer: {
@@ -134,16 +134,16 @@ export function FooterLinks({ data }: FooterLinksProps) {
     <footer className={classes.footer}>
       <Container className={classes.inner}>
         <div className={classes.logo}>
-          {/* Place logo here, will probably require significant fiddiling */}
+          <Image maw={80} src="./logo-text.svg"></Image>
           <Text size="xs" color="dimmed" className={classes.description}>
-            Build fully functional accessible web applications faster than ever
+            Join a global community that has achieved career success
           </Text>
         </div>
         <div className={classes.groups}>{groups}</div>
       </Container>
       <Container className={classes.afterFooter}>
         <Text color="dimmed" size="sm">
-          © 2023 qoaba.com. All rights reserved.
+          Made with ❤️ in Canada © 2023 Qoaba
         </Text>
 
         <Group spacing={0} className={classes.social} position="right" noWrap>
