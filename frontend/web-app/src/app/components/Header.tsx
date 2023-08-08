@@ -32,6 +32,7 @@ import {
   IconCoin,
   IconChevronDown,
 } from '@tabler/icons-react';
+import { ColorSchemeToggle } from './ToggleColorScheme';
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -215,6 +216,7 @@ export function HeaderMegaMenu() {
           <Group className={classes.hiddenMobile}>
             <Button variant="default">Log in</Button>
             <Button>Sign up</Button>
+            <ColorSchemeToggle />
           </Group>
 
           <Burger opened={drawerOpened} onClick={toggleDrawer} className={classes.hiddenDesktop} />
