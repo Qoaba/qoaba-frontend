@@ -6,7 +6,7 @@ describe('Home', () => {
   it('renders a heading', () => {
     render(<Home />)
  
-    const body = screen.getByText(/This is a test component/i)
+    const body = screen.getByText(/Integrate effortlessly with any/i)
  
     expect(body).toBeInTheDocument()
   })

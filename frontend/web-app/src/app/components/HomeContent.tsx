@@ -2,8 +2,6 @@
 
 import {
     createStyles,
-    Badge,
-    Group,
     Title,
     Text,
     Card,
@@ -11,26 +9,26 @@ import {
     Container,
     rem,
   } from '@mantine/core';
-  import { IconGauge, IconUser, IconCookie } from '@tabler/icons-react';
+  import { IconChartLine, IconPalette, IconUsersGroup } from '@tabler/icons-react';
   
-  const mockdata = [
+  const featurePoints = [
     {
-      title: 'Extreme performance',
+      title: 'Actionable insights',
       description:
-        'This dust is actually a powerful poison that will even make a pro wrestler sick, Regice cloaks itself with frigid air of -328 degrees Fahrenheit',
-      icon: IconGauge,
+        'Several data-driven insights identify where your strengths and weaknesses lie, and how you can leverage them to your advantage.',
+      icon: IconChartLine,
     },
     {
-      title: 'Privacy focused',
+      title: 'Personalized experience',
       description:
-        'People say it can run at the same speed as lightning striking, Its icy body is so cold, it will not melt even if it is immersed in magma',
-      icon: IconUser,
+        'Our AI-powered system learns from your behavior and adapts to your needs, providing you with a unique experience.',
+      icon: IconPalette,
     },
     {
-      title: 'No third parties',
+      title: 'Large community',
       description:
-        'They’re popular, but they’re rare. Trainers who show them off recklessly may be targeted by thieves',
-      icon: IconCookie,
+        'Discover a wide range of questions and solutions in our expansive collection of community-driven content, and contribute your own.',
+      icon: IconUsersGroup,
     },
   ];
   
@@ -80,7 +78,7 @@ import {
   
   export function FeaturesCards() {
     const { classes, theme } = useStyles();
-    const features = mockdata.map((feature) => (
+    const features = featurePoints.map((feature) => (
       <Card key={feature.title} shadow="md" radius="md" className={classes.card} padding="xl">
         <feature.icon size={rem(50)} stroke={2} color={theme.fn.primaryColor()} />
         <Text fz="lg" fw={500} className={classes.cardTitle} mt="md">
@@ -94,19 +92,12 @@ import {
   
     return (
       <Container size="lg" py="xl">
-        <Group position="center">
-          <Badge variant="filled" size="lg">
-            Best company ever
-          </Badge>
-        </Group>
-  
         <Title order={2} className={classes.title} ta="center" mt="sm">
-          Integrate effortlessly with any technology stack
+          Master the technical interview one question at a time
         </Title>
   
         <Text c="dimmed" className={classes.description} ta="center" mt="md">
-          Every once in a while, you’ll see a Golbat that’s missing some fangs. This happens when
-          hunger drives it to try biting a Steel-type Pokémon.
+          Boost your problem-solving skills and knowledge, empowering confident interviews at any level – from seasoned professionals to those just starting their journey.
         </Text>
   
         <SimpleGrid cols={3} spacing="xl" mt={50} breakpoints={[{ maxWidth: 'md', cols: 1 }]}>
