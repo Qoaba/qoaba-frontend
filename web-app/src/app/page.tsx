@@ -6,11 +6,10 @@ import { FooterLinks } from './components/Footer';
 export default function Page() {
   const footerData = [
     {
-      title: 'Products',
+      title: 'Get started',
       links: [
-        { label: 'Feature 1', link: '#' },
-        { label: 'Feature 2', link: '#' },
-        // Add more links as needed
+        { label: 'Pricing', link: '#' },
+        { label: 'Account', link: '#' },
       ],
     },
     {
@@ -18,10 +17,22 @@ export default function Page() {
       links: [
         { label: 'Documentation', link: '#' },
         { label: 'Tutorials', link: '#' },
-        // Add more links as needed
       ],
     },
-    // Add more groups as needed
+    {
+      title: 'Company',
+      links: [
+        { label: 'About', link: '#' },
+        { label: 'Contact', link: '#' },
+      ],
+    },
+    {
+      title: 'Qoaba',
+      links: [
+        { label: 'Questions', link: '#' },
+        { label: 'Analysis', link: '#' },
+      ],
+    }
   ];  
 
   return (
