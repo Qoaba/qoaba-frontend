@@ -135,7 +135,7 @@ export function FooterLinks({ data }: FooterLinksProps) {
       <Container className={classes.inner}>
         <div className={classes.logo}>
 
-          {theme.colorScheme === 'dark' ? (<Image maw={80} src="./logo-text-darkmode.svg" />) : <Image maw={80} src="./logo-text-lightmode.svg" />}
+          {theme.colorScheme === 'dark' ? (<Image maw={85} src="./logo-text-darkmode.svg" />) : <Image maw={85} src="./logo-text-lightmode.svg" />}
           
           <Text size="xs" color="dimmed" className={classes.description}>
             Join a global community that has achieved career success
