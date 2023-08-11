@@ -17,6 +17,7 @@
     "@mantine/form": "^6.0.18",
     "@mantine/hooks": "^6.0.17",
     "@mantine/next": "^6.0.17",
+    "@mantine/carousel": "6.0.17",
     "@tabler/icons-react": "2.30.0",
     "@types/node": "20.4.7",
     "@types/react": "18.2.18",
