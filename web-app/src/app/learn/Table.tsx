@@ -17,7 +17,6 @@ const useStyles = createStyles((theme) => ({
   th: {
     padding: '0 !important',
   },
-
   control: {
     width: '100%',
     padding: `${theme.spacing.xs} ${theme.spacing.md}`,
@@ -35,9 +34,9 @@ const useStyles = createStyles((theme) => ({
 }));
 
 interface RowData {
-  name: string;
-  email: string;
-  company: string;
+  topic: string;
+  question: string;
+  difficulty: string;
 }
 
 interface TableSortProps {
@@ -119,10 +118,12 @@ export function TableSort({ data }: TableSortProps) {
   };
 
   const rows = sortedData.map((row) => (
-    <tr key={row.name}>
-      <td>{row.name}</td>
-      <td>{row.email}</td>
-      <td>{row.company}</td>
+    <tr key={row.topic}>
+      <td>{row.topic}</td>
+      <td>{row.question}</td>
+      <td style={{ color: row.difficulty === 'Beginner' ? '#37b24d' : row.difficulty === 'Intermediate' ? '#f59f00' : '#f03e3e',  }}>
+        {row.difficulty}
+      </td>
     </tr>
   ));
 
@@ -139,25 +140,25 @@ export function TableSort({ data }: TableSortProps) {
         <thead>
           <tr>
             <Th
-              sorted={sortBy === 'name'}
+              sorted={sortBy === 'topic'}
               reversed={reverseSortDirection}
-              onSort={() => setSorting('name')}
+              onSort={() => setSorting('topic')}
             >
-              Name
+              Topic
             </Th>
             <Th
-              sorted={sortBy === 'email'}
+              sorted={sortBy === 'question'}
               reversed={reverseSortDirection}
-              onSort={() => setSorting('email')}
+              onSort={() => setSorting('question')}
             >
-              Email
+              Question
             </Th>
             <Th
-              sorted={sortBy === 'company'}
+              sorted={sortBy === 'difficulty'}
               reversed={reverseSortDirection}
-              onSort={() => setSorting('company')}
+              onSort={() => setSorting('difficulty')}
             >
-              Company
+              Difficulty
             </Th>
           </tr>
         </thead>
