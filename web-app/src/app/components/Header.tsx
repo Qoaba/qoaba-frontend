@@ -55,7 +55,7 @@ export function HeaderMegaMenu() {
           {theme.colorScheme === 'dark' ? (<Image maw={120} src="./logo-text-darkmode.svg" />) : <Image maw={120} src="./logo-text-lightmode.svg" />}
 
           <Group sx={{ height: '100%' }} spacing={0} className={classes.hiddenMobile}>
-            <a href="#" className={classes.link}>
+            <a href="../questions" className={classes.link}>
               Questions
             </a>
             <a href="#" className={classes.link}>
