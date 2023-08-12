@@ -13,14 +13,14 @@ export default function Page() {
       ],
     },
     {
-      title: 'Resources',
+      title: 'Community',
       links: [
-        { label: 'Documentation', link: '#' },
         { label: 'Tutorials', link: '#' },
+        { label: 'Forum', link: '#' },
       ],
     },
     {
-      title: 'Company',
+      title: 'Learn',
       links: [
         { label: 'About', link: '#' },
         { label: 'Contact', link: '#' },

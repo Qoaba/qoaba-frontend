@@ -84,24 +84,6 @@ import {
         marginTop: theme.spacing.sm,
       },
     },
-
-    faqTitle: {
-      marginBottom: `calc(${theme.spacing.xl} * 1.5)`,
-      fontSize: rem(24),
-      fontWeight: 900,
-
-      [theme.fn.smallerThan('sm')]: {
-        fontSize: rem(16),
-      },
-    },
-
-    item: {
-      borderRadius: theme.radius.md,
-      marginBottom: theme.spacing.lg,
-      border: `${rem(1)} solid ${
-        theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[1]
-      }`,
-    },
   }));
 
   export function FeaturesCards() {
@@ -147,38 +129,6 @@ import {
         <SimpleGrid cols={3} spacing="xl" mt={50} breakpoints={[{ maxWidth: 'md', cols: 1 }]} >
           {features}
         </SimpleGrid>
-
-        <Space h={120} />
-
-        <Title order={1} className={classes.faqTitle} ta="center" mt="sm">
-          Frequently Asked Questions.
-        </Title>
-        <Accordion variant="separated">
-        <Accordion.Item className={classes.item} value="reset-password">
-          <Accordion.Control>How can I reset my password?</Accordion.Control>
-          <Accordion.Panel></Accordion.Panel>
-        </Accordion.Item>
-
-        <Accordion.Item className={classes.item} value="another-account">
-          <Accordion.Control>Can I create more that one account?</Accordion.Control>
-          <Accordion.Panel></Accordion.Panel>
-        </Accordion.Item>
-
-        <Accordion.Item className={classes.item} value="newsletter">
-          <Accordion.Control>How can I subscribe to monthly newsletter?</Accordion.Control>
-          <Accordion.Panel></Accordion.Panel>
-        </Accordion.Item>
-
-        <Accordion.Item className={classes.item} value="credit-card">
-          <Accordion.Control>Do you store credit card information securely?</Accordion.Control>
-          <Accordion.Panel></Accordion.Panel>
-        </Accordion.Item>
-
-        <Accordion.Item className={classes.item} value="payment">
-          <Accordion.Control>What payment systems to you work with?</Accordion.Control>
-          <Accordion.Panel></Accordion.Panel>
-        </Accordion.Item>
-      </Accordion>
 
       </Container>
     );
