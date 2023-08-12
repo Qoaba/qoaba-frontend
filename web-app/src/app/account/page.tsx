@@ -33,16 +33,22 @@ const useStyles = createStyles((theme) => ({
         letterSpacing: -1,
         color: theme.colorScheme === 'dark' ? theme.white : theme.black,
         marginBottom: theme.spacing.xs,
-        fontFamily: `Greycliff CF, ${theme.fontFamily}`,
 
         [theme.fn.smallerThan('xs')]: {
             fontSize: rem(28),
             textAlign: 'left',
         },
     },
+
     highlight: {
-        color: theme.colors[theme.primaryColor][theme.colorScheme === 'dark' ? 4 : 6],
+        color: theme.colors[theme.primaryColor][theme.colorScheme === 'dark' ? 5 : 6],
     },
+
+    card: {
+        border: `${rem(1)} solid ${
+          theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[1]
+        }`,
+      },
 }));
 
 export function AuthenticationTitle(props: PaperProps) {
