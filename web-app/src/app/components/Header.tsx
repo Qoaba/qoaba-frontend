@@ -67,9 +67,12 @@ export function HeaderMegaMenu() {
           </Group>
 
           <Group classNames={classes.hiddenMobile}>
-            <Button>Account</Button>
+            <Button
+              component="a" 
+              href="../account">Account</Button>
             <ColorSchemeToggle />
           </Group>
+          
         </Group>
       </Header>
     </Box>
