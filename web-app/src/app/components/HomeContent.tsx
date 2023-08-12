@@ -10,7 +10,6 @@ import {
     rem,
     Space,
     Button,
-    Accordion,
     Group
   } from '@mantine/core';
   import { IconChartLine, IconPalette, IconUsersGroup } from '@tabler/icons-react';

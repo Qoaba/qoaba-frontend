@@ -1,6 +1,6 @@
 "use client";
 
-import { useToggle, upperFirst } from '@mantine/hooks';
+import { useToggle, upperFirst, useElementSize } from '@mantine/hooks';
 import { useForm } from '@mantine/form';
 import {
     createStyles,
@@ -18,6 +18,9 @@ import {
     Anchor,
     Stack,
     rem,
+    Image,
+    Center,
+    Space
 } from '@mantine/core';
 import { GoogleButton } from './GoogleButton';
 import PasswordStrength from './PasswordStrength';
@@ -43,9 +46,8 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export function AuthenticationTitle(props: PaperProps) {
-
     const { classes } = useStyles();
-    const [type, toggle] = useToggle(['login', 'register']);
+    const [type, toggle] = useToggle(['sign in', 'sign up']);
     const form = useForm({
         initialValues: {
             email: '',
@@ -61,88 +63,91 @@ export function AuthenticationTitle(props: PaperProps) {
     });
 
     return (
+        
+        <Container style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
+            <div style= {{ width: '420px' }} >
+                <Paper radius="md" p="xl" >
+                    <Center>
+                        <Image maw={80} src="./logo.svg"/>
+                    </Center>
 
-        <Container size={420} mt={200} >
+                    <Space h={30} />
 
-            <Paper radius="md" p="xl" withBorder {...props}>
-                <Title className={classes.title}>
-                    Welcome to{' '}
-                    <Text component="span" className={classes.highlight} inherit>
-                        Qoaba,
-                    </Text>{' '}
-                    {type} with
-                </Title>
+                    <Title className={classes.title}>
+                        { type === 'sign up' ? 'Create an account' : 'Sign in to your account'}
+                    </Title>
 
-                <Group grow mb="md" mt="md">
-                    <GoogleButton radius="lg">Google</GoogleButton>
-                </Group>
+                    <Group grow mb="md" mt="md">
+                        <GoogleButton radius="lg">Google</GoogleButton>
+                    </Group>
 
-                <Divider label="Or continue with email" labelPosition="center" my="lg" />
+                    <Divider label="Or continue with email" labelPosition="center" my="lg" />
 
-                <form onSubmit={form.onSubmit(() => { })}>
-                    <Stack>
-                        {type === 'register' && (
+                    <form onSubmit={form.onSubmit(() => { })}>
+                        <Stack>
+                            {type === 'sign up' && (
+                                <TextInput
+                                    label="Username"
+                                    placeholder="Username"
+                                    value={form.values.name}
+                                    onChange={(event) => form.setFieldValue('name', event.currentTarget.value)}
+                                    radius="md"
+                                />
+                            )}
+
                             <TextInput
-                                label="Username"
-                                placeholder="Username"
-                                value={form.values.name}
-                                onChange={(event) => form.setFieldValue('name', event.currentTarget.value)}
+                                required
+                                label="Email"
+                                placeholder="Your email"
+                                value={form.values.email}
+                                onChange={(event) => form.setFieldValue('email', event.currentTarget.value)}
+                                error={form.errors.email && 'Invalid email'}
                                 radius="md"
                             />
-                        )}
 
-                        <TextInput
-                            required
-                            label="Email"
-                            placeholder="Your email"
-                            value={form.values.email}
-                            onChange={(event) => form.setFieldValue('email', event.currentTarget.value)}
-                            error={form.errors.email && 'Invalid email'}
-                            radius="md"
-                        />
-
-                        {type !== 'register' && (<PasswordInput
-                            required
-                            label="Password"
-                            placeholder="Your password"
-                            value={form.values.password}
-                            onChange={(event) => form.setFieldValue('password', event.currentTarget.value)}
-                            error={form.errors.password && 'Password should include at least 6 characters'}
-                            radius="md"
-                        />
-                        )}
-
-                        {type === 'register' && (
-                            <PasswordStrength />
-                        )}
-
-                        {type === 'register' && (
-                            <Checkbox
-                                label="I accept terms and conditions"
-                                checked={form.values.terms}
-                                onChange={(event) => form.setFieldValue('terms', event.currentTarget.checked)}
+                            {type !== 'sign up' && (<PasswordInput
+                                required
+                                label="Password"
+                                placeholder="Your password"
+                                value={form.values.password}
+                                onChange={(event) => form.setFieldValue('password', event.currentTarget.value)}
+                                error={form.errors.password && 'Password should include at least 6 characters'}
+                                radius="md"
                             />
-                        )}
-                    </Stack>
+                            )}
 
-                    <Group position="apart" mt="xl">
-                        <Anchor
-                            component="button"
-                            type="button"
-                            color="dimmed"
-                            onClick={() => toggle()}
-                            size="xs"
-                        >
-                            {type === 'register'
-                                ? 'Already have an account? Login'
-                                : "Don't have an account? Register"}
-                        </Anchor>
-                        <Button type="submit" radius="xl">
-                            {upperFirst(type)}
-                        </Button>
-                    </Group>
-                </form>
-            </Paper>
+                            {type === 'sign up' && (
+                                <PasswordStrength />
+                            )}
+
+                            {type === 'sign up' && (
+                                <Checkbox
+                                    label="I accept terms and conditions"
+                                    checked={form.values.terms}
+                                    onChange={(event) => form.setFieldValue('terms', event.currentTarget.checked)}
+                                />
+                            )}
+                        </Stack>
+
+                        <Group position="apart" mt="xl">
+                            <Anchor
+                                component="button"
+                                type="button"
+                                color="dimmed"
+                                onClick={() => toggle()}
+                                size="xs"
+                            >
+                                {type === 'sign up'
+                                    ? 'Already have an account? Sign in'
+                                    : "Don't have an account? Create an account"}
+                            </Anchor>
+                            <Button type="submit" radius="xl">
+                                {upperFirst(type)}
+                            </Button>
+                        </Group>
+                    </form>
+                </Paper>
+            </div>
         </Container>
     );
 }

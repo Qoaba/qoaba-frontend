@@ -9,7 +9,7 @@ export default function Page() {
       title: 'Get started',
       links: [
         { label: 'Pricing', link: '#' },
-        { label: 'Account', link: '#' },
+        { label: 'Account', link: './account' },
       ],
     },
     {
