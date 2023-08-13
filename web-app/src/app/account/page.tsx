@@ -1,6 +1,6 @@
 "use client";
 
-import { useToggle, upperFirst, useElementSize } from '@mantine/hooks';
+import { useToggle, upperFirst } from '@mantine/hooks';
 import { useForm } from '@mantine/form';
 import {
     createStyles,
@@ -84,7 +84,7 @@ export function AuthenticationTitle(props: PaperProps) {
                     </Title>
 
                     <Group grow mb="md" mt="md">
-                        <GoogleButton radius="lg">Google</GoogleButton>
+                        <GoogleButton radius="lg" className={classes.card}>Google</GoogleButton>
                     </Group>
 
                     <Divider label="Or continue with email" labelPosition="center" my="lg" />
