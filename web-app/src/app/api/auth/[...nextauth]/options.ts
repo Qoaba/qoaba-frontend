@@ -19,8 +19,9 @@ export const options: NextAuthOptions = {
             async authorize(credentials) {
                 const user = {
                     id: "1",
+                    email: "admin@qoaba.com",
                     name: "admin",
-                    password: "admin"
+                    password: "admin",
                 }
 
                 if (credentials?.username === user.name && credentials?.password === user.password) {
