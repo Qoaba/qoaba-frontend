@@ -24,6 +24,8 @@ import {
 } from '@mantine/core';
 import { GoogleButton } from './GoogleButton';
 import PasswordStrength from './PasswordStrength';
+import { signIn } from 'next-auth/react';
+
 const useStyles = createStyles((theme) => ({
 
     title: {
@@ -68,13 +70,22 @@ export function AuthenticationTitle(props: PaperProps) {
         },
     });
 
+    const onSubmit = async () => {
+        const result = await signIn('credentials', {
+            username: form.values.name,
+            password: form.values.password,
+            redirect: true,
+            callbackUrl: '/'
+        });
+    };
+
     return (
         
         <Container style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
             <div style= {{ width: '420px' }} >
                 <Paper radius="md" p="xl" >
                     <Center>
-                        <Image maw={80} src="./logo.svg"/>
+                        <Image maw={80} src="/logo.svg"/>
                     </Center>
 
                     <Space h={30} />
@@ -93,21 +104,22 @@ export function AuthenticationTitle(props: PaperProps) {
                         <Stack>
                             {type === 'sign up' && (
                                 <TextInput
-                                    label="Username"
-                                    placeholder="Username"
-                                    value={form.values.name}
-                                    onChange={(event) => form.setFieldValue('name', event.currentTarget.value)}
+                                    required
+                                    label="Email"
+                                    placeholder="Your email"
+                                    value={form.values.email}
+                                    onChange={(event) => form.setFieldValue('email', event.currentTarget.value)}
+                                    error={form.errors.email && 'Invalid email'}
                                     radius="md"
                                 />
                             )}
 
                             <TextInput
                                 required
-                                label="Email"
-                                placeholder="Your email"
-                                value={form.values.email}
-                                onChange={(event) => form.setFieldValue('email', event.currentTarget.value)}
-                                error={form.errors.email && 'Invalid email'}
+                                label="Username"
+                                placeholder="Your username"
+                                value={form.values.name}
+                                onChange={(event) => form.setFieldValue('name', event.currentTarget.value)}
                                 radius="md"
                             />
 
@@ -147,7 +159,7 @@ export function AuthenticationTitle(props: PaperProps) {
                                     ? 'Already have an account? Sign in'
                                     : "Don't have an account? Create an account"}
                             </Anchor>
-                            <Button type="submit" radius="xl">
+                            <Button onClick={onSubmit} type="submit" radius="xl">
                                 {upperFirst(type)}
                             </Button>
                         </Group>
