@@ -11,6 +11,7 @@ import {
 } from '@mantine/core';
 
 import { ColorSchemeToggle } from './ToggleColorScheme';
+import { useSession } from 'next-auth/react';
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -46,6 +47,7 @@ const useStyles = createStyles((theme) => ({
 
 export function HeaderMegaMenu() {
   const { classes, theme } = useStyles();
+  const { data: session } = useSession();
 
   return (
     <Box pb={120}>
@@ -68,8 +70,11 @@ export function HeaderMegaMenu() {
 
           <Group classNames={classes.hiddenMobile}>
             <Button
-              component="a" 
-              href="./../auth/signIn">Account</Button>
+              component="a"
+              href={session ? '/auth/account' : '/auth/signIn'}
+            >
+              Account
+            </Button>
             <ColorSchemeToggle />
           </Group>
           

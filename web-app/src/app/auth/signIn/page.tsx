@@ -75,7 +75,7 @@ export function AuthenticationTitle(props: PaperProps) {
             username: form.values.name,
             password: form.values.password,
             redirect: true,
-            callbackUrl: '/'
+            callbackUrl: '/auth/account'
         });
     };
 
