@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 import {
   createStyles,
   Table,
@@ -9,20 +9,28 @@ import {
   Center,
   TextInput,
   rem,
-} from '@mantine/core';
-import { keys } from '@mantine/utils';
-import { IconSelector, IconChevronDown, IconChevronUp, IconSearch } from '@tabler/icons-react';
+} from "@mantine/core";
+import { keys } from "@mantine/utils";
+import {
+  IconSelector,
+  IconChevronDown,
+  IconChevronUp,
+  IconSearch,
+} from "@tabler/icons-react";
 
 const useStyles = createStyles((theme) => ({
   th: {
-    padding: '0 !important',
+    padding: "0 !important",
   },
   control: {
-    width: '100%',
+    width: "100%",
     padding: `${theme.spacing.xs} ${theme.spacing.md}`,
 
-    '&:hover': {
-      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
+    "&:hover": {
+      backgroundColor:
+        theme.colorScheme === "dark"
+          ? theme.colors.dark[6]
+          : theme.colors.gray[0],
     },
   },
 
@@ -52,7 +60,11 @@ interface ThProps {
 
 function Th({ children, reversed, sorted, onSort }: ThProps) {
   const { classes } = useStyles();
-  const Icon = sorted ? (reversed ? IconChevronUp : IconChevronDown) : IconSelector;
+  const Icon = sorted
+    ? reversed
+      ? IconChevronUp
+      : IconChevronDown
+    : IconSelector;
   return (
     <th className={classes.th}>
       <UnstyledButton onClick={onSort} className={classes.control}>
@@ -99,7 +111,7 @@ function sortData(
 }
 
 export function TableSort({ data }: TableSortProps) {
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [sortedData, setSortedData] = useState(data);
   const [sortBy, setSortBy] = useState<keyof RowData | null>(null);
   const [reverseSortDirection, setReverseSortDirection] = useState(false);
@@ -114,14 +126,25 @@ export function TableSort({ data }: TableSortProps) {
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.currentTarget;
     setSearch(value);
-    setSortedData(sortData(data, { sortBy, reversed: reverseSortDirection, search: value }));
+    setSortedData(
+      sortData(data, { sortBy, reversed: reverseSortDirection, search: value })
+    );
   };
 
   const rows = sortedData.map((row) => (
     <tr key={row.topic}>
       <td>{row.topic}</td>
       <td>{row.question}</td>
-      <td style={{ color: row.difficulty === 'Beginner' ? '#37b24d' : row.difficulty === 'Intermediate' ? '#f59f00' : '#f03e3e',  }}>
+      <td
+        style={{
+          color:
+            row.difficulty === "Beginner"
+              ? "#37b24d"
+              : row.difficulty === "Intermediate"
+              ? "#f59f00"
+              : "#f03e3e",
+        }}
+      >
         {row.difficulty}
       </td>
     </tr>
@@ -136,27 +159,32 @@ export function TableSort({ data }: TableSortProps) {
         value={search}
         onChange={handleSearchChange}
       />
-      <Table horizontalSpacing="md" verticalSpacing="xs" miw={700} sx={{ tableLayout: 'fixed' }}>
+      <Table
+        horizontalSpacing="md"
+        verticalSpacing="xs"
+        miw={700}
+        sx={{ tableLayout: "fixed" }}
+      >
         <thead>
           <tr>
             <Th
-              sorted={sortBy === 'topic'}
+              sorted={sortBy === "topic"}
               reversed={reverseSortDirection}
-              onSort={() => setSorting('topic')}
+              onSort={() => setSorting("topic")}
             >
               Topic
             </Th>
             <Th
-              sorted={sortBy === 'question'}
+              sorted={sortBy === "question"}
               reversed={reverseSortDirection}
-              onSort={() => setSorting('question')}
+              onSort={() => setSorting("question")}
             >
               Question
             </Th>
             <Th
-              sorted={sortBy === 'difficulty'}
+              sorted={sortBy === "difficulty"}
               reversed={reverseSortDirection}
-              onSort={() => setSorting('difficulty')}
+              onSort={() => setSorting("difficulty")}
             >
               Difficulty
             </Th>

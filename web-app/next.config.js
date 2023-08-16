@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
+const nextConfig = {};
 
-module.exports = nextConfig
+module.exports = nextConfig;
 
-const withFonts = require('next-fonts');
+const withFonts = require("next-fonts");
 module.exports = withFonts();

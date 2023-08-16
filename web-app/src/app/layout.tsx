@@ -1,7 +1,11 @@
-import RootStyleRegistry from './emotion';
-import AuthProvider from './context/AuthProvider'
+import RootStyleRegistry from "./emotion";
+import AuthProvider from "./context/AuthProvider";
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en-US">
       <head />
