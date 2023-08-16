@@ -1,4 +1,4 @@
-import { Text, Progress, Card, createStyles } from '@mantine/core';
+import { Text, Progress, Card, createStyles } from "@mantine/core";
 
 const useStyles = createStyles((theme) => ({
   card: {
