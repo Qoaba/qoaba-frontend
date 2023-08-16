@@ -222,11 +222,7 @@ export const Account = () => {
             {links}
 
             <div style={{ marginTop: "1rem" }}>
-              <a
-                href="/"
-                className={classes.link}
-                onClick={(event) => event.preventDefault()}
-              >
+              <a href="/" className={classes.link}>
                 <IconArrowNarrowLeft
                   className={classes.linkIcon}
                   stroke={1.5}
