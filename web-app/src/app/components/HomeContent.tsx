@@ -43,6 +43,7 @@ const useStyles = createStyles((theme) => ({
   title: {
     fontSize: rem(34),
     fontWeight: 900,
+    color: theme.colorScheme === "dark" ? theme.white : theme.black,
 
     [theme.fn.smallerThan("sm")]: {
       fontSize: rem(24),
@@ -76,6 +77,8 @@ const useStyles = createStyles((theme) => ({
   },
 
   cardTitle: {
+    fontWeight: 500,
+    color: theme.colorScheme === "dark" ? theme.white : theme.black,
     "&::after": {
       content: '""',
       display: "block",
@@ -98,7 +101,7 @@ export function FeaturesCards() {
       padding="xl"
     >
       <feature.icon size={rem(50)} stroke={2} color={theme.fn.primaryColor()} />
-      <Text fz="lg" fw={500} className={classes.cardTitle} mt="md">
+      <Text fz="lg" className={classes.cardTitle} mt="md">
         {feature.title}
       </Text>
       <Text fz="sm" c="dimmed" mt="sm">
