@@ -129,10 +129,12 @@ const useStyles = createStyles((theme) => ({
   cardTitle: {
     fontWeight: 700,
     fontSize: rem(30),
+    color: theme.colorScheme === "dark" ? theme.white : theme.black,
   },
 
   cardDescription: {
     fontSize: rem(18),
+    color: theme.colorScheme === "dark" ? theme.white : theme.black,
   },
 
   cardLesserDescription: {
