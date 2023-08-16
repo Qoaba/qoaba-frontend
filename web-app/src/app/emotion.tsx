@@ -57,10 +57,7 @@ function RootStyleRegistry({ children }: { children: React.ReactNode }) {
               Input: {
                 styles: (theme) => ({
                   input: {
-                    borderColor:
-                      theme.colorScheme === "dark"
-                        ? theme.colors.dark[5]
-                        : theme.colors.gray[1],
+                    border: "none",
                   },
                 }),
               },
