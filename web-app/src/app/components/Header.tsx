@@ -21,7 +21,10 @@ const useStyles = createStyles((theme) => ({
     paddingLeft: theme.spacing.md,
     paddingRight: theme.spacing.md,
     textDecoration: "none",
-    color: theme.colorScheme === "dark" ? theme.white : theme.black,
+    color:
+      theme.colorScheme === "dark"
+        ? theme.colors.dark[1]
+        : theme.colors.gray[7],
     fontWeight: 500,
     fontSize: theme.fontSizes.md,
 
@@ -37,6 +40,7 @@ const useStyles = createStyles((theme) => ({
         theme.colorScheme === "dark"
           ? theme.colors.dark[6]
           : theme.colors.gray[0],
+      color: theme.colorScheme === "dark" ? theme.white : theme.black,
     }),
   },
 
@@ -53,7 +57,7 @@ export function HeaderMegaMenu() {
 
   return (
     <Box pb={120}>
-      <Header height={60} px="md">
+      <Header height={60} px="md" withBorder={false}>
         <Group position="apart" sx={{ height: "100%" }}>
           {theme.colorScheme === "dark" ? (
             <Image
@@ -85,13 +89,13 @@ export function HeaderMegaMenu() {
             </a>
           </Group>
 
-          <Group classNames={classes.hiddenMobile}>
-            <Button
-              component="a"
+          <Group sx={{ height: "100%" }} classNames={classes.hiddenMobile}>
+            <a
               href={session ? "/auth/account" : "/auth/signIn"}
+              className={classes.link}
             >
               Account
-            </Button>
+            </a>
             <ColorSchemeToggle />
           </Group>
         </Group>
