@@ -1,3 +1,5 @@
+import { connectToMongoDB } from "@/lib/mongoclient";
+import User from "@/models/user";
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
@@ -16,21 +18,23 @@ export const options: NextAuthOptions = {
         },
       },
       async authorize(credentials) {
-        const user = {
-          id: "1",
-          email: "admin@qoaba.com",
-          name: "admin",
-          password: "admin",
-        };
+        await connectToMongoDB().catch(err => { throw new Error(err) })
 
-        if (
-          credentials?.username === user.name &&
-          credentials?.password === user.password
-        ) {
-          return user;
-        } else {
-          return null;
+        const user = await User.findOne({
+          username: credentials?.username
+        }).select("+password")
+
+        if (!user) {
+          throw new Error("Invalid credentials")
         }
+
+        const isPasswordCorrect = credentials!.password === user.password
+
+        if (!isPasswordCorrect) {
+          throw new Error("Invalid credentials")
+        }
+
+        return user
       },
     }),
   ],
