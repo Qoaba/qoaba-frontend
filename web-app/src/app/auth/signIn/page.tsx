@@ -91,7 +91,9 @@ export function AuthenticationTitle(props: PaperProps) {
       <div style={{ width: "420px" }}>
         <Paper radius="md" p="xl">
           <Center>
-            <Image maw={80} src="/logo.svg" alt="Qoaba logo" />
+            <a href="/">
+              <Image maw={80} src="/logo.svg" alt="Qoaba logo" />
+            </a>
           </Center>
 
           <Space h={30} />
@@ -122,6 +124,7 @@ export function AuthenticationTitle(props: PaperProps) {
                   label="Email"
                   placeholder="Your email"
                   value={form.values.email}
+                  variant="filled"
                   onChange={(event) =>
                     form.setFieldValue("email", event.currentTarget.value)
                   }
@@ -135,6 +138,7 @@ export function AuthenticationTitle(props: PaperProps) {
                 label="Username"
                 placeholder="Your username"
                 value={form.values.name}
+                variant="filled"
                 onChange={(event) =>
                   form.setFieldValue("name", event.currentTarget.value)
                 }
@@ -147,6 +151,7 @@ export function AuthenticationTitle(props: PaperProps) {
                   label="Password"
                   placeholder="Your password"
                   value={form.values.password}
+                  variant="filled"
                   onChange={(event) =>
                     form.setFieldValue("password", event.currentTarget.value)
                   }

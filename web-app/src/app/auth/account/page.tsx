@@ -13,23 +13,12 @@ import {
   Card,
   SimpleGrid,
   Divider,
-  Button,
+  Transition,
 } from "@mantine/core";
 import {
-  IconShoppingCart,
-  IconLicense,
-  IconMessage2,
-  IconBellRinging,
-  IconMessages,
-  IconFingerprint,
-  IconKey,
-  IconSettings,
-  Icon2fa,
-  IconUsers,
-  IconFileAnalytics,
-  IconDatabaseImport,
+  IconBolt,
+  IconUser,
   IconReceipt2,
-  IconReceiptRefund,
   IconLogout,
   IconArrowNarrowLeft,
 } from "@tabler/icons-react";
@@ -90,10 +79,10 @@ const useStyles = createStyles((theme) => ({
 
     "&:hover": {
       backgroundColor: theme.colors.red[6],
-      color: theme.colorScheme === "dark" ? theme.white : theme.black,
+      color: theme.white,
 
       [`& .${getStylesRef("icon")}`]: {
-        color: theme.colorScheme === "dark" ? theme.white : theme.black,
+        color: theme.white,
       },
     },
   },
@@ -110,13 +99,13 @@ const useStyles = createStyles((theme) => ({
   linkActive: {
     "&, &:hover": {
       backgroundColor: theme.fn.variant({
-        variant: "light",
+        variant: "dark",
         color: theme.primaryColor,
       }).background,
-      color: theme.fn.variant({ variant: "light", color: theme.primaryColor })
+      color: theme.fn.variant({ variant: "dark", color: theme.primaryColor })
         .color,
       [`& .${getStylesRef("icon")}`]: {
-        color: theme.fn.variant({ variant: "light", color: theme.primaryColor })
+        color: theme.fn.variant({ variant: "dark", color: theme.primaryColor })
           .color,
       },
     },
@@ -144,29 +133,16 @@ const useStyles = createStyles((theme) => ({
 
 const tabs = {
   account: [
-    { link: "", label: "Notifications", icon: IconBellRinging },
-    { link: "", label: "Billing", icon: IconReceipt2 },
-    { link: "", label: "Security", icon: IconFingerprint },
-    { link: "", label: "SSH Keys", icon: IconKey },
-    { link: "", label: "Databases", icon: IconDatabaseImport },
-    { link: "", label: "Authentication", icon: Icon2fa },
-    { link: "", label: "Other Settings", icon: IconSettings },
+    { label: "Details", icon: IconUser },
+    { label: "Billing", icon: IconReceipt2 },
   ],
-  general: [
-    { link: "", label: "Orders", icon: IconShoppingCart },
-    { link: "", label: "Receipts", icon: IconLicense },
-    { link: "", label: "Reviews", icon: IconMessage2 },
-    { link: "", label: "Messages", icon: IconMessages },
-    { link: "", label: "Customers", icon: IconUsers },
-    { link: "", label: "Refunds", icon: IconReceiptRefund },
-    { link: "", label: "Files", icon: IconFileAnalytics },
-  ],
+  general: [{ label: "Performance", icon: IconBolt }],
 };
 
 export const Account = () => {
   const { classes, theme, cx } = useStyles();
   const [section, setSection] = useState<"account" | "general">("account");
-  const [active, setActive] = useState("Billing");
+  const [active, setActive] = useState("Details");
   const { data: session } = useSession();
 
   const links = tabs[section].map((item) => (
@@ -174,7 +150,6 @@ export const Account = () => {
       className={cx(classes.link, {
         [classes.linkActive]: item.label === active,
       })}
-      href={item.link}
       key={item.label}
       onClick={(event) => {
         event.preventDefault();
@@ -213,7 +188,7 @@ export const Account = () => {
               fullWidth
               data={[
                 { label: "Account", value: "account" },
-                { label: "System", value: "general" },
+                { label: "Statistics", value: "general" },
               ]}
             />
           </Navbar.Section>
@@ -221,7 +196,7 @@ export const Account = () => {
           <Navbar.Section grow mt="xl">
             {links}
 
-            <div style={{ marginTop: "1rem" }}>
+            <div style={{ marginTop: "2rem" }}>
               <a href="/" className={classes.link}>
                 <IconArrowNarrowLeft
                   className={classes.linkIcon}
@@ -248,44 +223,66 @@ export const Account = () => {
 
         <div style={{ flex: 1, padding: "1rem" }}>
           <SimpleGrid w={750} cols={1} spacing="lg">
-            <Card p="lg" className={classes.card}>
-              <Text className={classes.cardTitle}>Your account</Text>
+            <Transition
+              mounted={active === "Details"}
+              transition="fade"
+              duration={150}
+              timingFunction="ease"
+            >
+              {(styles) => (
+                <div style={styles}>
+                  {active != "" && (
+                    <>
+                      <Card p="lg" shadow="md" className={classes.card}>
+                        <Text className={classes.cardTitle}>Your account</Text>
 
-              <Text mt="xl" className={classes.cardDescription}>
-                Username
-              </Text>
-              <Text className={classes.cardDescription}>
-                {session?.user?.name}
-              </Text>
+                        <Text mt="xl" className={classes.cardDescription}>
+                          Username
+                        </Text>
+                        <Text className={classes.cardDescription}>
+                          {session?.user?.name}
+                        </Text>
 
-              <Divider mt="md" />
+                        <Divider mt="md" />
 
-              <Text mt="md" className={classes.cardDescription}>
-                Email
-              </Text>
-              <Text className={classes.cardDescription}>
-                {session?.user?.email}
-              </Text>
+                        <Text mt="md" className={classes.cardDescription}>
+                          Email
+                        </Text>
+                        <Text className={classes.cardDescription}>
+                          {session?.user?.email}
+                        </Text>
 
-              <Divider mt="md" />
+                        <Divider mt="md" />
 
-              <Text mt="md" className={classes.cardDescription}>
-                Password
-              </Text>
-              <Text c="dimmed" className={classes.cardLesserDescription}>
-                Change your account password.
-              </Text>
+                        <Text mt="md" className={classes.cardDescription}>
+                          Password
+                        </Text>
+                        <Text
+                          c="dimmed"
+                          className={classes.cardLesserDescription}
+                        >
+                          Change your account password.
+                        </Text>
 
-              <Divider mt="md" />
+                        <Divider mt="md" />
 
-              <Text mt="md" className={classes.cardDescription}>
-                Delete account
-              </Text>
-              <Text c="dimmed" className={classes.cardLesserDescription}>
-                Permanently delete your account, and associated subscriptions.
-                You will be asked for confirmation before the deletion proceeds.
-              </Text>
-            </Card>
+                        <Text mt="md" className={classes.cardDescription}>
+                          Delete account
+                        </Text>
+                        <Text
+                          c="dimmed"
+                          className={classes.cardLesserDescription}
+                        >
+                          Permanently delete your account, and associated
+                          subscriptions. You will be asked for confirmation
+                          before the deletion proceeds.
+                        </Text>
+                      </Card>
+                    </>
+                  )}
+                </div>
+              )}
+            </Transition>
           </SimpleGrid>
         </div>
       </div>
