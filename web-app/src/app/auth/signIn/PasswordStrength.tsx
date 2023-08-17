@@ -84,6 +84,7 @@ export function PasswordStrength() {
         onChange={setValue}
         placeholder="Your password"
         label="Password"
+        variant="filled"
         required
       />
 

@@ -56,9 +56,7 @@ function RootStyleRegistry({ children }: { children: React.ReactNode }) {
             components: {
               Input: {
                 styles: (theme) => ({
-                  input: {
-                    border: "none",
-                  },
+                  input: {},
                 }),
               },
             },
