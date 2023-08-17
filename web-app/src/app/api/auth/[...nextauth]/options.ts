@@ -1,6 +1,8 @@
+import { IUser } from "@/app/types";
 import { connectToMongoDB } from "@/lib/mongoclient";
 import User from "@/models/user";
 import type { NextAuthOptions } from "next-auth";
+import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 export const options: NextAuthOptions = {
@@ -18,28 +20,46 @@ export const options: NextAuthOptions = {
         },
       },
       async authorize(credentials) {
-        await connectToMongoDB().catch(err => { throw new Error(err) })
+        await connectToMongoDB().catch((err) => {
+          throw new Error(err);
+        });
 
         const user = await User.findOne({
-          username: credentials?.username
-        }).select("+password")
+          username: credentials?.username,
+        }).select("+password");
 
         if (!user) {
-          throw new Error("Invalid credentials")
+          return null;
         }
 
-        const isPasswordCorrect = credentials!.password === user.password
+        const isPasswordCorrect = credentials!.password === user.password;
 
         if (!isPasswordCorrect) {
-          throw new Error("Invalid credentials")
+          return null;
         }
-
-        return user
+        return user;
       },
     }),
   ],
   pages: {
     signIn: "/auth/signIn",
   },
+  session: {
+    strategy: "jwt",
+  },
+  callbacks: {
+    jwt: async ({ token, user }) => {
+      user && (token.user = user);
+      return token;
+    },
+    session: async ({ session, token }) => {
+      const user = token.user as IUser;
+      session.user = user;
+
+      return session;
+    },
+  },
   secret: process.env.NEXTAUTH_SECRET,
 };
+
+export default NextAuth(options);
