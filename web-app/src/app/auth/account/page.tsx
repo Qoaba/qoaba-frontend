@@ -1,5 +1,6 @@
 "use client";
 
+import { IUser } from "./../../types/index";
 import { useSession, signOut } from "next-auth/react";
 import { useState } from "react";
 import {
@@ -144,6 +145,7 @@ export const Account = () => {
   const [section, setSection] = useState<"account" | "general">("account");
   const [active, setActive] = useState("Details");
   const { data: session } = useSession();
+  const userInstance = session?.user as IUser;
 
   const links = tabs[section].map((item) => (
     <a
@@ -178,7 +180,7 @@ export const Account = () => {
               color="dimmed"
               mb="xs"
             >
-              {session?.user?.email}
+              {userInstance?.email}
             </Text>
 
             <SegmentedControl
@@ -240,7 +242,7 @@ export const Account = () => {
                           Username
                         </Text>
                         <Text className={classes.cardDescription}>
-                          {session?.user?.name}
+                          {userInstance?.username}
                         </Text>
 
                         <Divider mt="md" />
@@ -249,7 +251,16 @@ export const Account = () => {
                           Email
                         </Text>
                         <Text className={classes.cardDescription}>
-                          {session?.user?.email}
+                          {userInstance?.email}
+                        </Text>
+
+                        <Divider mt="md" />
+
+                        <Text mt="md" className={classes.cardDescription}>
+                          ID
+                        </Text>
+                        <Text className={classes.cardDescription}>
+                          {userInstance?._id}
                         </Text>
 
                         <Divider mt="md" />
