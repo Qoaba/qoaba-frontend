@@ -4,9 +4,14 @@ import User from "@/models/user";
 import type { NextAuthOptions } from "next-auth";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
 
 export const options: NextAuthOptions = {
   providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET
+    }),
     CredentialsProvider({
       name: "Credentials",
       credentials: {
@@ -48,6 +53,12 @@ export const options: NextAuthOptions = {
     strategy: "jwt",
   },
   callbacks: {
+    signIn({ account, profile }) {
+      if (account?.provider === "google") {
+        return profile?.email_verified && profile?.email.endsWith("@gmail.com")
+      }
+      return true // Do different verification for other providers that don't have `email_verified`
+    },
     jwt: async ({ token, user }) => {
       user && (token.user = user);
       return token;
