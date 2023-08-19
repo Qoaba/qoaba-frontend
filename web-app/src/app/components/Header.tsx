@@ -36,10 +36,6 @@ const useStyles = createStyles((theme) => ({
     },
 
     ...theme.fn.hover({
-      backgroundColor:
-        theme.colorScheme === "dark"
-          ? theme.colors.dark[6]
-          : theme.colors.gray[0],
       color: theme.colorScheme === "dark" ? theme.white : theme.black,
     }),
   },
@@ -59,25 +55,21 @@ export function HeaderMegaMenu() {
     <Box pb={120}>
       <Header height={60} px="md" withBorder={false}>
         <Group position="apart" sx={{ height: "100%" }}>
-          {theme.colorScheme === "dark" ? (
-            <Image
-              maw={120}
-              src="./logo-text-darkmode.svg"
-              alt="Darkmode Qoaba logo with text"
-            />
-          ) : (
-            <Image
-              maw={120}
-              src="./logo-text-lightmode.svg"
-              alt="Lightmode Qoaba logo with text"
-            />
-          )}
+          <Group position="left" classNames={classes.hiddenMobile}>
+            {theme.colorScheme === "dark" ? (
+              <Image
+                maw={120}
+                src="./logo-text-darkmode.svg"
+                alt="Darkmode Qoaba logo with text"
+              />
+            ) : (
+              <Image
+                maw={120}
+                src="./logo-text-lightmode.svg"
+                alt="Lightmode Qoaba logo with text"
+              />
+            )}
 
-          <Group
-            sx={{ height: "100%" }}
-            spacing={0}
-            className={classes.hiddenMobile}
-          >
             <a href="../questions" className={classes.link}>
               Questions
             </a>
@@ -89,7 +81,7 @@ export function HeaderMegaMenu() {
             </a>
           </Group>
 
-          <Group sx={{ height: "100%" }} classNames={classes.hiddenMobile}>
+          <Group position="right" classNames={classes.hiddenMobile}>
             <a
               href={session ? "/auth/account" : "/auth/signIn"}
               className={classes.link}
