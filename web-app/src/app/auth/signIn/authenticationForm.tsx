@@ -1,5 +1,3 @@
-"use client";
-
 import { Divider, Group, Title, createStyles, rem } from "@mantine/core";
 import { useToggle } from "@mantine/hooks";
 import { GoogleButton } from "./GoogleButton";

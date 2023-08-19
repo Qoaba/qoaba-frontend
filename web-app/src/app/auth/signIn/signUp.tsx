@@ -1,5 +1,3 @@
-"use client";
-
 import {
   Anchor,
   Button,
@@ -30,7 +28,7 @@ export default function SignUpForm(props: any) {
   });
 
   return (
-    <form onSubmit={form.onSubmit(() => {})}>
+    <form onSubmit={form.onSubmit(() => { })}>
       <Stack>
         <TextInput
           required
