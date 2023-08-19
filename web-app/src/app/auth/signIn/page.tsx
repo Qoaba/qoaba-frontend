@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   Paper,
@@ -10,12 +10,7 @@ import {
 } from "@mantine/core";
 import AuthenticationForm from "./authenticationForm";
 
-
-
-
 export function AuthenticationTitle(props: PaperProps) {
-
-
   return (
     <Container
       style={{
@@ -36,7 +31,6 @@ export function AuthenticationTitle(props: PaperProps) {
           <Space h={30} />
 
           <AuthenticationForm />
-
         </Paper>
       </div>
     </Container>
