@@ -1,8 +1,8 @@
 import { Divider, Group, Title, createStyles, rem } from "@mantine/core";
 import { useToggle } from "@mantine/hooks";
 import { GoogleButton } from "./GoogleButton";
-import SignInForm from "./signIn";
-import SignUpForm from "./signUp";
+import SignInForm from "./SignInForm";
+import SignUpForm from "./SignUpForm";
 
 const useStyles = createStyles((theme) => ({
   title: {

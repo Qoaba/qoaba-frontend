@@ -83,7 +83,7 @@ export function HeaderMegaMenu() {
 
           <Group position="right" classNames={classes.hiddenMobile}>
             <a
-              href={session ? "/auth/account" : "/auth/signIn"}
+              href={session ? "/auth/account" : "/auth/portal"}
               className={classes.link}
             >
               Account

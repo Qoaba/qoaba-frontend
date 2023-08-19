@@ -8,7 +8,7 @@ import {
   Center,
   Space,
 } from "@mantine/core";
-import AuthenticationForm from "./authenticationForm";
+import AuthenticationForm from "./AuthenticationForm";
 
 export function AuthenticationTitle(props: PaperProps) {
   return (
