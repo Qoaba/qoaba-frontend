@@ -1,5 +1,4 @@
 import { IUser } from "@/app/types";
-import User from "@/models/user";
 import type { NextAuthOptions } from "next-auth";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -17,8 +16,8 @@ export const options: NextAuthOptions = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        username: {
-          label: "Username",
+        email: {
+          label: "email",
           type: "text",
         },
         password: {
@@ -27,25 +26,24 @@ export const options: NextAuthOptions = {
         },
       },
       async authorize(credentials) {
-        // await connectToMongoDB().catch((err) => {
-        //   throw new Error(err);
-        // });
+        const client = await clientPromise;
+        const db = client.db();
 
-        // const user = await User.findOne({
-        //   username: credentials?.username,
-        // }).select("+password");
+        const user = await db.collection("users").findOne({
+          email: credentials?.email,
+        });
 
-        // if (!user) {
-        //   return null;
-        // }
+        if (!user) {
+          return null;
+        }
 
-        // const isPasswordCorrect = credentials!.password === user.password;
+        const isPasswordCorrect = credentials?.password === user.password;
 
-        // if (!isPasswordCorrect) {
-        //   return null;
-        // }
-        // return user;
-        return null;
+        if (!isPasswordCorrect) {
+          return null;
+        }
+
+        return user as any;
       },
     }),
   ],
