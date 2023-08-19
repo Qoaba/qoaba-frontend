@@ -252,7 +252,7 @@ export const Account = () => {
                 onClick={async (event) => {
                   event.preventDefault();
                   await signOut({
-                    callbackUrl: "/auth/signIn",
+                    callbackUrl: "/auth/portal",
                   });
                 }}
               >
