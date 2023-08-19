@@ -1,6 +1,5 @@
 "use client";
 
-import { IUser } from "./../../types/index";
 import { useSession, signOut } from "next-auth/react";
 import { useState } from "react";
 import {
@@ -15,6 +14,10 @@ import {
   SimpleGrid,
   Divider,
   Transition,
+  Loader,
+  Container,
+  Image,
+  Group,
 } from "@mantine/core";
 import {
   IconBolt,
@@ -145,7 +148,35 @@ export const Account = () => {
   const [section, setSection] = useState<"account" | "general">("account");
   const [active, setActive] = useState("Details");
   const { data: session } = useSession();
-  const userInstance = session?.user as IUser;
+
+  if (!session) {
+    return (
+      <Container
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          minHeight: "100vh",
+        }}
+      >
+        <Loader size="xl" />
+      </Container>
+    );
+  }
+
+  const outterObject = Object.values(session);
+  const innerObject = Object.values(outterObject[0]);
+
+  const type = innerObject.length === 5 ? "credentials" : "oauth";
+  const selectedValues =
+    type === "credentials"
+      ? ([
+          innerObject[1],
+          innerObject[2],
+          innerObject[0],
+          innerObject[3],
+        ] as string[])
+      : ([innerObject[1], innerObject[3], innerObject[0]] as string[]);
 
   const links = tabs[section].map((item) => (
     <a
@@ -173,15 +204,24 @@ export const Account = () => {
           className={classes.navbar}
         >
           <Navbar.Section>
-            <Text
-              weight={500}
-              size="sm"
-              className={classes.title}
-              color="dimmed"
-              mb="xs"
-            >
-              {userInstance?.email}
-            </Text>
+            <Group style={{ display: "flex", alignItems: "center" }} mb="md">
+              <Image
+                src={selectedValues[3]}
+                radius="xl"
+                alt="Profile picture"
+                width={40}
+                height={40}
+              />
+              <Text
+                weight={500}
+                size="sm"
+                color="dimmed"
+                className={classes.title}
+                style={{ marginLeft: "0.1rem" }}
+              >
+                {selectedValues[1]}
+              </Text>
+            </Group>
 
             <SegmentedControl
               value={section}
@@ -242,7 +282,7 @@ export const Account = () => {
                           Username
                         </Text>
                         <Text className={classes.cardDescription}>
-                          {userInstance?.username}
+                          {selectedValues[0]}
                         </Text>
 
                         <Divider mt="md" />
@@ -251,7 +291,7 @@ export const Account = () => {
                           Email
                         </Text>
                         <Text className={classes.cardDescription}>
-                          {userInstance?.email}
+                          {selectedValues[1]}
                         </Text>
 
                         <Divider mt="md" />
@@ -260,7 +300,7 @@ export const Account = () => {
                           ID
                         </Text>
                         <Text className={classes.cardDescription}>
-                          {userInstance?._id}
+                          {selectedValues[2]}
                         </Text>
 
                         <Divider mt="md" />
