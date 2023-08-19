@@ -167,9 +167,9 @@ export const Account = () => {
   const outterObject = Object.values(session);
   const innerObject = Object.values(outterObject[0]);
 
-  const type = innerObject.length === 5 ? "credentials" : "oauth";
+  const type = innerObject.length === 5 ? "oauth" : "credentials";
   const selectedValues =
-    type === "credentials"
+    type === "oauth"
       ? ([
           innerObject[1],
           innerObject[2],
