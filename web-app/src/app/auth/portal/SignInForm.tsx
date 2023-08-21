@@ -39,6 +39,7 @@ export default function SignInForm(props: any) {
     <form onSubmit={form.onSubmit(() => { })}>
       <Stack>
         <TextInput
+          id="1"
           required
           label="Email"
           placeholder="Your email"
@@ -53,6 +54,7 @@ export default function SignInForm(props: any) {
 
         <PasswordInput
           required
+          id="2"
           label="Password"
           placeholder="Your password"
           value={form.values.password}
