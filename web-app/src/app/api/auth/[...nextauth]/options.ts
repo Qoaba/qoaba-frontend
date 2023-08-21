@@ -26,24 +26,24 @@ export const options: NextAuthOptions = {
         },
       },
       async authorize(credentials) {
-        const client = await clientPromise;
-        const db = client.db();
-
-        const user = await db.collection("users").findOne({
-          email: credentials?.email,
+        const res = await fetch('http:127.0.0.1:8000/api/users/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: credentials?.email,
+            password: credentials?.password,
+          }),
         });
-
-        if (!user) {
-          return null;
+        console.log(res)
+        if (res.status == 200) {
+          // get response data 
+          const username = await res.json();
+          const user = { username: username, email: credentials?.email }
+          return user;
         }
-
-        const isPasswordCorrect = credentials?.password === user.password;
-
-        if (!isPasswordCorrect) {
-          return null;
-        }
-
-        return user as any;
+        return null;
       },
     }),
   ],
