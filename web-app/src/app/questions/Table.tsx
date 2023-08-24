@@ -132,7 +132,7 @@ export function TableSort({ data }: TableSortProps) {
   };
 
   const rows = sortedData.map((row) => (
-    <tr key={row.topic}>
+    <tr key={row.question}>
       <td>{row.topic}</td>
       <td>{row.question}</td>
       <td
