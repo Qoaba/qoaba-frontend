@@ -36,7 +36,7 @@ export default function SignInForm(props: any) {
   };
 
   return (
-    <form onSubmit={form.onSubmit(() => { })}>
+    <form onSubmit={form.onSubmit(() => {})}>
       <Stack>
         <TextInput
           id="1"

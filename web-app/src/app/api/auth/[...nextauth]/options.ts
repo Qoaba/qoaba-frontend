@@ -26,22 +26,23 @@ export const options: NextAuthOptions = {
         },
       },
       async authorize(credentials) {
-        const res = await fetch('http:127.0.0.1:8000/api/users/login', {
-          method: 'POST',
+        const res = await fetch("http:127.0.0.1:8000/api/users/login", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             email: credentials?.email,
             password: credentials?.password,
           }),
         });
-        console.log(res)
         if (res.status == 200) {
-          // get response data 
-          const username = await res.json();
-          const user = { username: username, email: credentials?.email }
-          return user;
+          // get response data
+          const data = await res.json();
+          console.log("yo");
+
+          const user = { username: data, email: credentials?.email };
+          return user as any;
         }
         return null;
       },

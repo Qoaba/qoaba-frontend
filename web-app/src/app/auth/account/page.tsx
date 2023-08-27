@@ -163,7 +163,7 @@ export const Account = () => {
       </Container>
     );
   }
-
+  console.log(session);
   const outterObject = Object.values(session);
   const innerObject = Object.values(outterObject[0]);
 
@@ -292,15 +292,6 @@ export const Account = () => {
                         </Text>
                         <Text className={classes.cardDescription}>
                           {selectedValues[1]}
-                        </Text>
-
-                        <Divider mt="md" />
-
-                        <Text mt="md" className={classes.cardDescription}>
-                          ID
-                        </Text>
-                        <Text className={classes.cardDescription}>
-                          {selectedValues[2]}
                         </Text>
 
                         <Divider mt="md" />
