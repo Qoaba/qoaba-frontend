@@ -52,7 +52,7 @@ export default function SignUpForm(props: any) {
         callbackUrl: "/auth/account",
       });
     } else {
-      console.log("Error");
+      Error("Something went wrong");
     }
   };
 
