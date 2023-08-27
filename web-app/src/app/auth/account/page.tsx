@@ -163,7 +163,6 @@ export const Account = () => {
       </Container>
     );
   }
-  console.log(session);
   const outterObject = Object.values(session);
   const innerObject = Object.values(outterObject[0]);
 

@@ -37,9 +37,7 @@ export const options: NextAuthOptions = {
           }),
         });
         if (res.status == 200) {
-          // get response data
           const data = await res.json();
-          console.log("yo");
 
           const user = { username: data, email: credentials?.email };
           return user as any;
