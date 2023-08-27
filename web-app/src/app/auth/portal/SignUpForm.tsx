@@ -31,14 +31,15 @@ export default function SignUpForm(props: any) {
   const onSubmit = async () => {
     const email = form.values.email;
     const password = form.values.password;
-    const res = await fetch('http://127.0.0.1:8000/api/users', {
-      method: 'POST',
+    const username = form.values.name;
+    const res = await fetch("http://127.0.0.1:8000/api/users", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         email: email,
-        password: password,
+        password: form.values.password,
         username: form.values.name,
       }),
     });
@@ -46,19 +47,17 @@ export default function SignUpForm(props: any) {
     if (result === 200) {
       await signIn("credentials", {
         email: email,
-        password: password,
+        password: form.values.password,
         redirect: true,
         callbackUrl: "/auth/account",
       });
-    }
-    else {
+    } else {
       console.log("Error");
     }
   };
 
-
   return (
-    <form onSubmit={form.onSubmit(() => { })}>
+    <form onSubmit={form.onSubmit(() => {})}>
       <Stack>
         <TextInput
           required
@@ -85,7 +84,12 @@ export default function SignUpForm(props: any) {
           radius="md"
         />
 
-        <PasswordStrength />
+        <PasswordStrength
+          password={form.values.password}
+          setPassword={(newPassword) =>
+            form.setFieldValue("password", newPassword)
+          }
+        />
         <Checkbox
           label="I accept terms and conditions"
           checked={form.values.terms}
