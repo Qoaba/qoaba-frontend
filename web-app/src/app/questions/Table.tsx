@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Link from "next/link";
 import {
   createStyles,
   Table,
@@ -131,24 +132,32 @@ export function TableSort({ data }: TableSortProps) {
     );
   };
 
-  const rows = sortedData.map((row) => (
-    <tr key={row.question}>
-      <td>{row.topic}</td>
-      <td>{row.question}</td>
-      <td
-        style={{
-          color:
-            row.difficulty === "Beginner"
-              ? "#37b24d"
-              : row.difficulty === "Intermediate"
-              ? "#f59f00"
-              : "#f03e3e",
-        }}
-      >
-        {row.difficulty}
-      </td>
-    </tr>
-  ));
+ 
+const rows = sortedData.map((row) => (
+  <tr key={row.question}>
+    <td>
+      <span>{row.topic}</span>
+    </td>
+    <td>
+      <Link href={`/questions/${encodeURIComponent(row.question)}`}>
+        {row.question}
+      </Link>
+    </td>
+    <td
+      style={{
+        color:
+          row.difficulty === "Beginner"
+            ? "#37b24d"
+            : row.difficulty === "Intermediate"
+            ? "#f59f00"
+            : "#f03e3e",
+      }}
+    >
+      {row.difficulty}
+    </td>
+  </tr>
+));
+
 
   return (
     <ScrollArea>
