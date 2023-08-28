@@ -30,8 +30,6 @@ export default function SignUpForm(props: any) {
 
   const onSubmit = async () => {
     const email = form.values.email;
-    const password = form.values.password;
-    const username = form.values.name;
     const res = await fetch("http://127.0.0.1:8000/api/users", {
       method: "POST",
       headers: {

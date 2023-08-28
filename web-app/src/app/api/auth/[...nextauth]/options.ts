@@ -1,8 +1,7 @@
-import { IUser } from "@/app/types";
 import type { NextAuthOptions } from "next-auth";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import GoogleProvider from "next-auth/providers/google";
+import GoogleProvider, { GoogleProfile } from "next-auth/providers/google";
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 import clientPromise from "@/lib/mongoclient";
 
@@ -10,6 +9,14 @@ export const options: NextAuthOptions = {
   adapter: MongoDBAdapter(clientPromise),
   providers: [
     GoogleProvider({
+      profile(profile: GoogleProfile) {
+        return {
+          ...profile,
+          role: profile.role ?? "user",
+          id: profile.sub,
+          image: profile.picture,
+        };
+      },
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
@@ -38,8 +45,13 @@ export const options: NextAuthOptions = {
         });
         if (res.status == 200) {
           const data = await res.json();
-
-          const user = { username: data, email: credentials?.email };
+          const selectedValues = Object.values(data);
+          const user = {
+            name: selectedValues[0],
+            image: selectedValues[1],
+            email: credentials?.email,
+            role: "user",
+          };
           return user as any;
         }
         return null;
@@ -53,14 +65,12 @@ export const options: NextAuthOptions = {
     strategy: "jwt",
   },
   callbacks: {
-    jwt: async ({ token, user }) => {
-      user && (token.user = user);
+    async jwt({ token, user }) {
+      if (user) token.role = user.role;
       return token;
     },
-    session: async ({ session, token }) => {
-      const user = token.user as IUser;
-      session.user = user;
-
+    async session({ session, token }) {
+      if (session?.user) session.user.role = token.role;
       return session;
     },
   },
