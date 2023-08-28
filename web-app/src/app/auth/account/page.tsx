@@ -163,19 +163,24 @@ export const Account = () => {
       </Container>
     );
   }
+
   const outterObject = Object.values(session);
   const innerObject = Object.values(outterObject[0]);
-
-  const type = innerObject.length === 5 ? "oauth" : "credentials";
+  const type = innerObject.length > 2 ? "oauth" : "credentials";
   const selectedValues =
     type === "oauth"
       ? ([
-          innerObject[1],
-          innerObject[2],
-          innerObject[0],
-          innerObject[3],
+          innerObject[0], // username
+          innerObject[1], // email
+          innerObject[2], // image
+          innerObject[3], // user type
         ] as string[])
-      : ([innerObject[1], innerObject[3], innerObject[0]] as string[]);
+      : ([
+          innerObject[0], // username
+          innerObject[1], // email
+          innerObject[3], // image
+          innerObject[2], // user type
+        ] as string[]);
 
   const links = tabs[section].map((item) => (
     <a
@@ -203,10 +208,10 @@ export const Account = () => {
           className={classes.navbar}
         >
           <Navbar.Section>
-            <Group style={{ display: "flex", alignItems: "center" }} mb="md">
+            <Group style={{ display: "flex", alignItems: "center" }} mb="xl">
               <Image
-                src={selectedValues[3]}
-                radius="xl"
+                src={selectedValues[2]}
+                radius="sm"
                 alt="Profile picture"
                 width={40}
                 height={40}
@@ -218,7 +223,7 @@ export const Account = () => {
                 className={classes.title}
                 style={{ marginLeft: "0.1rem" }}
               >
-                {selectedValues[1]}
+                {selectedValues[3]}
               </Text>
             </Group>
 
