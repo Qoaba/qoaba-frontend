@@ -29,6 +29,7 @@ export default function Page() {
   }, []);
 
   const tableData = apiData.map((item) => ({
+    id: item.id,
     topic: item.topic,
     difficulty: item.difficulty,
     question: item.question,
@@ -85,7 +86,7 @@ export default function Page() {
             {tableData.length > 0 ? (
               <TableSort data={tableData}></TableSort>
             ) : (
-              <Text weight={500} align="center">
+              <Text weight={500} align="center">g
                 Nothing found
               </Text>
             )}
