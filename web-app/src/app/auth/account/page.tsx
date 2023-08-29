@@ -10,10 +10,7 @@ import {
   getStylesRef,
   rem,
   Center,
-  Card,
   SimpleGrid,
-  Divider,
-  Transition,
   Loader,
   Container,
   Image,
@@ -25,7 +22,10 @@ import {
   IconReceipt2,
   IconLogout,
   IconArrowNarrowLeft,
+  IconDatabaseEdit,
 } from "@tabler/icons-react";
+import { AccountDetails } from "./AccountDetails";
+import { SystemQuestions } from "./SystemQuestions";
 
 const useStyles = createStyles((theme) => ({
   navbar: {
@@ -114,34 +114,7 @@ const useStyles = createStyles((theme) => ({
       },
     },
   },
-
-  card: {
-    border: "none",
-  },
-
-  cardTitle: {
-    fontWeight: 700,
-    fontSize: rem(30),
-    color: theme.colorScheme === "dark" ? theme.white : theme.black,
-  },
-
-  cardDescription: {
-    fontSize: rem(18),
-    color: theme.colorScheme === "dark" ? theme.white : theme.black,
-  },
-
-  cardLesserDescription: {
-    fontSize: rem(16),
-  },
 }));
-
-const tabs = {
-  account: [
-    { label: "Details", icon: IconUser },
-    { label: "Billing", icon: IconReceipt2 },
-  ],
-  general: [{ label: "Performance", icon: IconBolt }],
-};
 
 export const Account = () => {
   const { classes, theme, cx } = useStyles();
@@ -164,25 +137,34 @@ export const Account = () => {
     );
   }
 
-  const outterObject = Object.values(session);
-  const innerObject = Object.values(outterObject[0]);
-  const type = innerObject.length > 2 ? "oauth" : "credentials";
-  const selectedValues =
-    type === "oauth"
-      ? ([
-          innerObject[0], // username
-          innerObject[1], // email
-          innerObject[2], // image
-          innerObject[3], // user type
-        ] as string[])
-      : ([
-          innerObject[0], // username
-          innerObject[1], // email
-          innerObject[3], // image
-          innerObject[2], // user type
-        ] as string[]);
+  var tabs = null;
+  var tabLabels = null;
+  if (session.user.role === "admin") {
+    tabs = {
+      account: [{ label: "Details", icon: IconUser }],
+      general: [{ label: "Questions", icon: IconDatabaseEdit }],
+    };
 
-  const links = tabs[section].map((item) => (
+    tabLabels = [
+      { label: "Account", value: "account" },
+      { label: "System", value: "general" },
+    ];
+  } else if (session.user.role === "user") {
+    tabs = {
+      account: [
+        { label: "Details", icon: IconUser },
+        { label: "Billing", icon: IconReceipt2 },
+      ],
+      general: [{ label: "Performance", icon: IconBolt }],
+    };
+
+    tabLabels = [
+      { label: "Account", value: "account" },
+      { label: "Statistics", value: "general" },
+    ];
+  }
+
+  const links = tabs![section].map((item) => (
     <a
       className={cx(classes.link, {
         [classes.linkActive]: item.label === active,
@@ -198,6 +180,25 @@ export const Account = () => {
     </a>
   ));
 
+  const detailsFields = [
+    { label: "Username", value: session.user.name },
+    { label: "Email", value: session.user.email },
+    {
+      label: "Password",
+      value: "Change your account password.",
+    },
+    {
+      label: "Delete account",
+      value:
+        "Permanently delete your account, and associated subscriptions. You will be asked for confirmation before the deletion proceeds.",
+    },
+  ];
+
+  const questionsFields = [
+    { label: "Question", value: "Your question" },
+    { label: "Answer", value: "Your answer" },
+  ];
+
   return (
     <Center mt="xl">
       <div style={{ display: "flex" }}>
@@ -210,7 +211,7 @@ export const Account = () => {
           <Navbar.Section>
             <Group style={{ display: "flex", alignItems: "center" }} mb="xl">
               <Image
-                src={selectedValues[2]}
+                src={session.user.image}
                 radius="sm"
                 alt="Profile picture"
                 width={40}
@@ -223,7 +224,7 @@ export const Account = () => {
                 className={classes.title}
                 style={{ marginLeft: "0.1rem" }}
               >
-                {selectedValues[3]}
+                {session.user.role}
               </Text>
             </Group>
 
@@ -232,10 +233,7 @@ export const Account = () => {
               onChange={(value: "account" | "general") => setSection(value)}
               transitionTimingFunction="ease"
               fullWidth
-              data={[
-                { label: "Account", value: "account" },
-                { label: "Statistics", value: "general" },
-              ]}
+              data={tabLabels!}
             />
           </Navbar.Section>
 
@@ -269,66 +267,20 @@ export const Account = () => {
 
         <div style={{ flex: 1, padding: "1rem" }}>
           <SimpleGrid w={750} cols={1} spacing="lg">
-            <Transition
-              mounted={active === "Details"}
-              transition="fade"
-              duration={150}
-              timingFunction="ease"
-            >
-              {(styles) => (
-                <div style={styles}>
-                  {active != "" && (
-                    <>
-                      <Card p="lg" shadow="md" className={classes.card}>
-                        <Text className={classes.cardTitle}>Your account</Text>
+            {active === "Details" && (
+              <>
+                <AccountDetails title="Your account" fields={detailsFields} />
+              </>
+            )}
 
-                        <Text mt="xl" className={classes.cardDescription}>
-                          Username
-                        </Text>
-                        <Text className={classes.cardDescription}>
-                          {selectedValues[0]}
-                        </Text>
-
-                        <Divider mt="md" />
-
-                        <Text mt="md" className={classes.cardDescription}>
-                          Email
-                        </Text>
-                        <Text className={classes.cardDescription}>
-                          {selectedValues[1]}
-                        </Text>
-
-                        <Divider mt="md" />
-
-                        <Text mt="md" className={classes.cardDescription}>
-                          Password
-                        </Text>
-                        <Text
-                          c="dimmed"
-                          className={classes.cardLesserDescription}
-                        >
-                          Change your account password.
-                        </Text>
-
-                        <Divider mt="md" />
-
-                        <Text mt="md" className={classes.cardDescription}>
-                          Delete account
-                        </Text>
-                        <Text
-                          c="dimmed"
-                          className={classes.cardLesserDescription}
-                        >
-                          Permanently delete your account, and associated
-                          subscriptions. You will be asked for confirmation
-                          before the deletion proceeds.
-                        </Text>
-                      </Card>
-                    </>
-                  )}
-                </div>
-              )}
-            </Transition>
+            {active === "Questions" && (
+              <>
+                <SystemQuestions
+                  title="Add a question"
+                  fields={questionsFields}
+                />
+              </>
+            )}
           </SimpleGrid>
         </div>
       </div>
