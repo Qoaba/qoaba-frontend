@@ -12,6 +12,7 @@ import {
   Button,
   Select,
 } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
 import { IconCheck, IconX } from "@tabler/icons-react";
 import React from "react";
 import { useState } from "react";
@@ -113,6 +114,64 @@ export function SystemQuestions({
       />
     ));
 
+  const onSubmit = async () => {
+    notifications.show({
+      id: "uploading-notification",
+      loading: true,
+      title: "Uploading question to database",
+      message: "Question is being uploaded to the database, please wait...",
+      autoClose: false,
+      withCloseButton: false,
+    });
+
+    try {
+      const res = await fetch("http://127.0.0.1:8000/api/questions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          topic: questions[0],
+          question_title: questions[1],
+          question: questions[2],
+          solution: questions[3],
+          difficulty: questions[4],
+        }),
+      });
+
+      if (res.ok) {
+        notifications.update({
+          id: "uploading-notification",
+          color: "teal",
+          title: "Question uploaded successfully",
+          message:
+            "Notification will close in 3 seconds, or you can close this notification now",
+          icon: <IconCheck size="1rem" />,
+          autoClose: 3000,
+        });
+      } else {
+        notifications.update({
+          id: "uploading-notification",
+          color: "red",
+          title: "Error uploading question",
+          message:
+            "There was an error uploading the question. Please try again.",
+          icon: <IconX size="1rem" />,
+          autoClose: 3000,
+        });
+      }
+    } catch (error) {
+      notifications.update({
+        id: "uploading-notification",
+        color: "red",
+        title: "Error uploading question",
+        message: "There was an error uploading the question. Please try again.",
+        icon: <IconX size="1rem" />,
+        autoClose: 3000,
+      });
+    }
+  };
+
   return (
     <Card p="lg" shadow="md" className={classes.card}>
       <Text className={classes.cardTitle}>{title}</Text>
@@ -203,7 +262,7 @@ export function SystemQuestions({
       <Divider mt="lg" mb="lg" />
 
       <Group position="right">
-        <Button disabled={strength === 100 ? false : true}>
+        <Button disabled={strength === 100 ? false : true} onClick={onSubmit}>
           {" "}
           Add new question
         </Button>
