@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { NotFoundTitle } from './404page';
+import { HeaderMegaMenu } from "../Header";
 
 export default function Page({ params }: {
   params: { question: string }
@@ -25,6 +26,7 @@ export default function Page({ params }: {
 
   return (
     <div>
+      < HeaderMegaMenu />
       <h1>Question {params.question}</h1>
       {/* Render question data here */}
       <pre>{JSON.stringify(questionData, null, 2)}</pre>

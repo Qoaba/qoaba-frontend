@@ -1,14 +1,6 @@
 "use client";
 
-import {
-  createStyles,
-  Header,
-  Group,
-  Button,
-  Box,
-  rem,
-  Image,
-} from "@mantine/core";
+import { createStyles, Header, Group, Box, rem, Image } from "@mantine/core";
 
 import { ColorSchemeToggle } from "../components/ToggleColorScheme";
 
@@ -20,7 +12,10 @@ const useStyles = createStyles((theme) => ({
     paddingLeft: theme.spacing.md,
     paddingRight: theme.spacing.md,
     textDecoration: "none",
-    color: theme.colorScheme === "dark" ? theme.white : theme.black,
+    color:
+      theme.colorScheme === "dark"
+        ? theme.colors.dark[1]
+        : theme.colors.gray[7],
     fontWeight: 500,
     fontSize: theme.fontSizes.md,
 
@@ -32,10 +27,7 @@ const useStyles = createStyles((theme) => ({
     },
 
     ...theme.fn.hover({
-      backgroundColor:
-        theme.colorScheme === "dark"
-          ? theme.colors.dark[6]
-          : theme.colors.gray[0],
+      color: theme.colorScheme === "dark" ? theme.white : theme.black,
     }),
   },
 
@@ -51,28 +43,24 @@ export function HeaderMegaMenu() {
 
   return (
     <Box pb={40}>
-      <Header height={60} px="md">
+      <Header height={60} px="md" withBorder={false}>
         <Group position="apart" sx={{ height: "100%" }}>
-          {theme.colorScheme === "dark" ? (
-            <Image
-              maw={120}
-              src="./logo-text-darkmode.svg"
-              alt="Darkmode Qoaba logo with text"
-            />
-          ) : (
-            <Image
-              maw={120}
-              src="./logo-text-lightmode.svg"
-              alt="Lightmode Qoaba logo with text"
-            />
-          )}
+          <Group position="left" classNames={classes.hiddenMobile}>
+            {theme.colorScheme === "dark" ? (
+              <Image
+                maw={120}
+                src="/logo-text-darkmode.svg"
+                alt="Darkmode Qoaba logo with text"
+              />
+            ) : (
+              <Image
+                maw={120}
+                src="./logo-text-lightmode.svg"
+                alt="Lightmode Qoaba logo with text"
+              />
+            )}
 
-          <Group
-            sx={{ height: "100%" }}
-            spacing={0}
-            className={classes.hiddenMobile}
-          >
-            <a href="#" className={classes.link}>
+            <a href="../questions" className={classes.link}>
               Questions
             </a>
             <a href="#" className={classes.link}>
@@ -83,7 +71,7 @@ export function HeaderMegaMenu() {
             </a>
           </Group>
 
-          <Group classNames={classes.hiddenMobile}>
+          <Group position="right" classNames={classes.hiddenMobile}>
             <ColorSchemeToggle />
           </Group>
         </Group>
