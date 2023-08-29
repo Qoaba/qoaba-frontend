@@ -195,8 +195,11 @@ export const Account = () => {
   ];
 
   const questionsFields = [
-    { label: "Question", value: "Your question" },
-    { label: "Answer", value: "Your answer" },
+    { label: "Topic", value: "Topic" },
+    { label: "Question Title", value: "Question Title" },
+    { label: "Question", value: "Question" },
+    { label: "Solution", value: "Solution" },
+    { label: "Difficulty", value: "Difficulty" },
   ];
 
   return (

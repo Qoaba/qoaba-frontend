@@ -8,6 +8,9 @@ import {
   Box,
   Progress,
   Group,
+  Divider,
+  Button,
+  Select,
 } from "@mantine/core";
 import { IconCheck, IconX } from "@tabler/icons-react";
 import React from "react";
@@ -56,21 +59,12 @@ function QuestionRequirement({
 }
 
 const requirements = [
+  { re: /^(?!\s*$).+/, label: "Contains a topic" },
+  { re: /^(?!\s*$).+/, label: "Contains a question title" },
   { re: /^(?!\s*$).+/, label: "Contains a question" },
-  { re: /^(?!\s*$).+/, label: "Contains an answer" },
+  { re: /^(?!\s*$).+/, label: "Contains a solution" },
+  { re: /^(?!\s*$).+/, label: "Contains a difficulty" },
 ];
-
-function getStrength(password: string) {
-  let multiplier = password.length > 5 ? 0 : 1;
-
-  requirements.forEach((requirement) => {
-    if (!requirement.re.test(password)) {
-      multiplier += 1;
-    }
-  });
-
-  return Math.max(100 - (100 / (requirements.length + 1)) * multiplier, 0);
-}
 
 export function SystemQuestions({
   title,
@@ -81,8 +75,8 @@ export function SystemQuestions({
 }) {
   const { classes, theme, cx } = useStyles();
 
-  const [questions, setQuestions] = useState(["", ""]);
-  const [strengths, setStrengths] = useState([0, 0]);
+  const [questions, setQuestions] = useState(["", "", "", "", ""]);
+  const [strengths, setStrengths] = useState([0, 0, 0, 0, 0]);
 
   const handleQuestionChange = (index: number, value: string) => {
     const newQuestions = [...questions];
@@ -90,14 +84,18 @@ export function SystemQuestions({
     setQuestions(newQuestions);
 
     const newStrengths = [...strengths];
-    newStrengths[index] = getStrength(value);
+    newStrengths[index] = value === "" ? 0 : 20;
     setStrengths(newStrengths);
   };
 
-  const value = questions[0] + questions[1];
-  const strength = getStrength(value);
+  var value = "";
+  var strength = 0;
+  for (let i = 0; i < questions.length; i++) {
+    value += questions[i];
+    strength += strengths[i];
+  }
 
-  const bars = Array(2)
+  const bars = Array(5)
     .fill(0)
     .map((_, index) => (
       <Progress
@@ -105,13 +103,13 @@ export function SystemQuestions({
         value={
           value.length > 0 && index === 0
             ? 100
-            : strength >= ((index + 1) / 2) * 100
+            : strength >= ((index + 1) / 5) * 100
             ? 100
             : 0
         }
         color={strength > 80 ? "teal" : strength > 50 ? "yellow" : "red"}
         key={index}
-        size={2}
+        size={5}
       />
     ));
 
@@ -128,11 +126,22 @@ export function SystemQuestions({
           </Text>
 
           {index === 0 && (
+            <Select
+              placeholder="Select a topic"
+              mt="sm"
+              searchable
+              data={["OOP", "Networks", "Algorithms", "Virtualization"]}
+              value={questions[index]}
+              onChange={(value) => handleQuestionChange(index, value!)}
+            />
+          )}
+
+          {index === 1 && (
             <Textarea
               autosize
               minRows={1}
-              placeholder="Enter your question here..."
-              mt="md"
+              placeholder="Enter your question title here..."
+              mt="sm"
               value={questions[index]}
               onChange={(event) =>
                 handleQuestionChange(index, event.target.value)
@@ -140,32 +149,65 @@ export function SystemQuestions({
             />
           )}
 
-          {index === 1 && (
+          {index === 2 && (
             <Textarea
               autosize
-              minRows={2}
-              placeholder="Enter your answer here..."
-              mt="md"
+              minRows={1}
+              placeholder="Enter your question here..."
+              mt="sm"
               value={questions[index]}
               onChange={(event) =>
                 handleQuestionChange(index, event.target.value)
               }
             />
           )}
+
+          {index === 3 && (
+            <Textarea
+              autosize
+              minRows={2}
+              placeholder="Enter your solution here..."
+              mt="sm"
+              value={questions[index]}
+              onChange={(event) =>
+                handleQuestionChange(index, event.target.value)
+              }
+            />
+          )}
+
+          {index === 4 && (
+            <Select
+              placeholder="Select a difficulty"
+              mt="sm"
+              searchable
+              data={["Beginner", "Intermediate", "Advanced"]}
+              value={questions[index]}
+              onChange={(value) => handleQuestionChange(index, value!)}
+            />
+          )}
         </React.Fragment>
       ))}
       <div>
-        <Group spacing={2} grow mt="xl">
+        <Group spacing={5} grow mt="xl">
           {bars}
         </Group>
         {requirements.map((requirement, reqIndex) => (
           <QuestionRequirement
             key={reqIndex}
             label={requirement.label}
-            meets={requirement.re.test(questions[0])}
+            meets={requirement.re.test(questions[reqIndex])}
           />
         ))}
       </div>
+
+      <Divider mt="lg" mb="lg" />
+
+      <Group position="right">
+        <Button disabled={strength === 100 ? false : true}>
+          {" "}
+          Add new question
+        </Button>
+      </Group>
     </Card>
   );
 }
