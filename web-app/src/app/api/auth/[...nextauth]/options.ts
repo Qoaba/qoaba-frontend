@@ -50,7 +50,7 @@ export const options: NextAuthOptions = {
             name: selectedValues[0],
             image: selectedValues[1],
             email: credentials?.email,
-            role: "user",
+            role: selectedValues[2],
           };
           return user as any;
         }
