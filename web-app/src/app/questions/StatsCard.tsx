@@ -14,13 +14,13 @@ const useStyles = createStyles((theme) => ({
   },
 
   label: {
-    fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+    fontFamily: `${theme.fontFamily}`,
     fontWeight: 700,
     lineHeight: 1,
   },
 
   lead: {
-    fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+    fontFamily: `${theme.fontFamily}`,
     fontWeight: 700,
     fontSize: rem(22),
     lineHeight: 1,

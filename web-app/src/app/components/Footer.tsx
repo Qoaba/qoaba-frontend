@@ -89,7 +89,7 @@ const useStyles = createStyles((theme) => ({
   title: {
     fontSize: theme.fontSizes.lg,
     fontWeight: 700,
-    fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+    fontFamily: `${theme.fontFamily}`,
     marginBottom: `calc(${theme.spacing.xs} / 2)`,
     color: theme.colorScheme === "dark" ? theme.white : theme.black,
   },
