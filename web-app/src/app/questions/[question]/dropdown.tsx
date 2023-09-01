@@ -1,4 +1,4 @@
-import { Container, Title, Accordion, createStyles, rem } from '@mantine/core';
+import { Container, Title, Accordion, createStyles, rem, Card } from '@mantine/core';
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -18,6 +18,25 @@ const useStyles = createStyles((theme) => ({
       theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[3]
     }`,
   },
+
+  card: {
+    border: "none",
+  },
+
+  cardTitle: {
+    fontWeight: 700,
+    fontSize: rem(30),
+    color: theme.colorScheme === "dark" ? theme.white : theme.black,
+  },
+
+  cardDescription: {
+    fontSize: rem(18),
+    color: theme.colorScheme === "dark" ? theme.white : theme.black,
+  },
+
+  cardLesserDescription: {
+    fontSize: rem(16),
+  },
 }));
 
 const placeholder =
@@ -27,7 +46,7 @@ const placeholder =
     const { classes } = useStyles();
   
     return (
-      <Container size="sm" className={classes.wrapper}>
+      <Card p="lg" shadow="md" className={classes.card}>
         <Accordion variant="separated">
           {questionData.data.map((question: any) => (
             <Accordion.Item className={classes.item} key={question.id} value={question.id}>
@@ -36,6 +55,6 @@ const placeholder =
             </Accordion.Item>
           ))}
         </Accordion>
-      </Container>
+      </Card>
     );
   }
