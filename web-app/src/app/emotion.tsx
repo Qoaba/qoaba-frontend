@@ -52,13 +52,39 @@ function RootStyleRegistry({ children }: { children: React.ReactNode }) {
                 "#6741d9",
                 "#5f3dc4",
               ],
+              white: ["#ffffff"],
             },
 
             components: {
-              Input: {
-                styles: (theme) => ({
-                  input: {},
-                }),
+              Modal: {
+                styles(theme): any {
+                  return {
+                    title: {
+                      fontSize: theme.fontSizes.lg,
+                      fontWeight: 700,
+                      color:
+                        theme.colorScheme === "dark"
+                          ? theme.white
+                          : theme.black,
+                    },
+                    header: {
+                      backgroundColor:
+                        theme.colorScheme === "dark"
+                          ? theme.colors.dark[6]
+                          : theme.white,
+                    },
+                    content: {
+                      backgroundColor:
+                        theme.colorScheme === "dark"
+                          ? theme.colors.dark[6]
+                          : theme.white,
+                      color:
+                        theme.colorScheme === "dark"
+                          ? theme.white
+                          : theme.black,
+                    },
+                  };
+                },
               },
             },
           }}

@@ -1,5 +1,17 @@
-import { Text, createStyles, rem, Card, Divider } from "@mantine/core";
+import {
+  Modal,
+  Text,
+  createStyles,
+  rem,
+  Card,
+  Divider,
+  Button,
+  Group,
+  Box,
+} from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import React from "react";
+import { ModelOverlay } from "./ModalOverlay";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -20,6 +32,14 @@ const useStyles = createStyles((theme) => ({
   cardLesserDescription: {
     fontSize: rem(16),
   },
+
+  buttonLabel: {
+    fontSize: rem(14),
+  },
+
+  modalDialogue: {
+    border: "2px solid #ccc",
+  },
 }));
 
 export function AccountDetails({
@@ -30,9 +50,24 @@ export function AccountDetails({
   fields: { label: string; value: string }[];
 }) {
   const { classes, theme, cx } = useStyles();
+  const [openedModals, setOpenedModals] = React.useState<boolean[]>(
+    Array(fields.length).fill(false)
+  );
+
+  const openModal = (index: number) => {
+    const updatedOpenedModals = [...openedModals];
+    updatedOpenedModals[index] = true;
+    setOpenedModals(updatedOpenedModals);
+  };
+
+  const closeModal = (index: number) => {
+    const updatedOpenedModals = [...openedModals];
+    updatedOpenedModals[index] = false;
+    setOpenedModals(updatedOpenedModals);
+  };
 
   return (
-    <Card p="lg" shadow="md" className={classes.card}>
+    <Card p="lg" shadow="md" radius="md" className={classes.card}>
       <Text className={classes.cardTitle}>{title}</Text>
       {fields.map((field, index) => (
         <React.Fragment key={index}>
@@ -43,16 +78,47 @@ export function AccountDetails({
             {field.label}
           </Text>
 
-          <Text
-            c={index > 1 ? "dimmed" : ""}
-            className={
-              index > 1
-                ? classes.cardLesserDescription
-                : classes.cardDescription
+          <Group position="apart">
+            <Box w={600}>
+              <Text
+                c={index > 1 ? "dimmed" : ""}
+                className={
+                  index > 1
+                    ? classes.cardLesserDescription
+                    : classes.cardDescription
+                }
+              >
+                {field.value}
+              </Text>
+            </Box>
+            <Button
+              key={index}
+              style={{
+                background:
+                  index < 3 ? theme.colors.dark[3] : theme.colors.red[6],
+              }}
+              onClick={() => openModal(index)}
+            >
+              <Text className={classes.buttonLabel}>
+                {index < 3 ? "Change" : "Delete"}
+              </Text>
+            </Button>
+          </Group>
+
+          <Modal
+            opened={openedModals[index]}
+            onClose={() => closeModal(index)}
+            title={
+              index < 3
+                ? "Change your " + field.label.toLowerCase()
+                : "Delete your account"
             }
+            centered
+            size="md"
+            radius="md"
           >
-            {field.value}
-          </Text>
+            <ModelOverlay index={index} />
+          </Modal>
           {index < fields.length - 1 && <Divider mt="md" />}
         </React.Fragment>
       ))}
