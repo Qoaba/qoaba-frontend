@@ -205,68 +205,70 @@ export const Account = () => {
   return (
     <Center mt="xl">
       <div style={{ display: "flex" }}>
-        <Navbar
-          height={840}
-          width={{ sm: 300 }}
-          p="md"
-          className={classes.navbar}
-        >
-          <Navbar.Section>
-            <Group style={{ display: "flex", alignItems: "center" }} mb="xl">
-              <Image
-                src={session.user.image}
-                radius="sm"
-                alt="Profile picture"
-                width={40}
-                height={40}
-              />
-              <Text
-                weight={500}
-                size="sm"
-                color="dimmed"
-                className={classes.title}
-                style={{ marginLeft: "0.1rem" }}
-              >
-                {session.user.role}
-              </Text>
-            </Group>
-
-            <SegmentedControl
-              value={section}
-              onChange={(value: "account" | "general") => setSection(value)}
-              transitionTimingFunction="ease"
-              fullWidth
-              data={tabLabels!}
-            />
-          </Navbar.Section>
-
-          <Navbar.Section grow mt="xl">
-            {links}
-
-            <div style={{ marginTop: "2rem" }}>
-              <a href="/" className={classes.link}>
-                <IconArrowNarrowLeft
-                  className={classes.linkIcon}
-                  stroke={1.5}
+        <div>
+          <Navbar
+            height={840}
+            width={{ sm: 300 }}
+            p="md"
+            className={classes.navbar}
+          >
+            <Navbar.Section>
+              <Group style={{ display: "flex", alignItems: "center" }} mb="xl">
+                <Image
+                  src={session.user.image}
+                  radius="sm"
+                  alt="Profile picture"
+                  width={40}
+                  height={40}
                 />
-                <span>Back to main site</span>
-              </a>
+                <Text
+                  weight={500}
+                  size="sm"
+                  color="dimmed"
+                  className={classes.title}
+                  style={{ marginLeft: "0.1rem" }}
+                >
+                  {session.user.role}
+                </Text>
+              </Group>
 
-              <a
-                className={classes.logoutLink}
-                onClick={async (event) => {
-                  event.preventDefault();
-                  await signOut({
-                    callbackUrl: "/auth/portal",
-                  });
-                }}
-              >
-                <IconLogout className={classes.linkIcon} stroke={1.5} />
-                <span>Log out</span>
-              </a>
-            </div>
-          </Navbar.Section>
-        </Navbar>
+              <SegmentedControl
+                value={section}
+                onChange={(value: "account" | "general") => setSection(value)}
+                transitionTimingFunction="ease"
+                fullWidth
+                data={tabLabels!}
+              />
+            </Navbar.Section>
+
+            <Navbar.Section grow mt="xl">
+              {links}
+
+              <div style={{ marginTop: "2rem" }}>
+                <a href="/" className={classes.link}>
+                  <IconArrowNarrowLeft
+                    className={classes.linkIcon}
+                    stroke={1.5}
+                  />
+                  <span>Back to main site</span>
+                </a>
+
+                <a
+                  className={classes.logoutLink}
+                  onClick={async (event) => {
+                    event.preventDefault();
+                    await signOut({
+                      callbackUrl: "/auth/portal",
+                    });
+                  }}
+                >
+                  <IconLogout className={classes.linkIcon} stroke={1.5} />
+                  <span>Log out</span>
+                </a>
+              </div>
+            </Navbar.Section>
+          </Navbar>
+        </div>
 
         <div style={{ flex: 1, padding: "1rem" }}>
           <SimpleGrid w={750} cols={1} spacing="lg">
