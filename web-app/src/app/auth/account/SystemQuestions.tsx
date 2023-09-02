@@ -16,6 +16,7 @@ import { notifications } from "@mantine/notifications";
 import { IconCheck, IconX } from "@tabler/icons-react";
 import React from "react";
 import { useState } from "react";
+import { useForm } from "@mantine/form";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -38,81 +39,41 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-function QuestionRequirement({
-  meets,
-  label,
-}: {
-  meets: boolean;
-  label: string;
-}) {
+function areFieldsDirty(form: any) {
   return (
-    <Text color={meets ? "teal" : "red"} mt={5} size="sm">
-      <Center inline>
-        {meets ? (
-          <IconCheck size="0.9rem" stroke={1.5} />
-        ) : (
-          <IconX size="0.9rem" stroke={1.5} />
-        )}
-        <Box ml={7}>{label}</Box>
-      </Center>
-    </Text>
+    form.isDirty("topic") &&
+    form.isDirty("question_title") &&
+    form.isDirty("question") &&
+    form.isDirty("solution") &&
+    form.isDirty("difficulty")
   );
 }
 
-const requirements = [
-  { re: /^(?!\s*$).+/, label: "Contains a topic" },
-  { re: /^(?!\s*$).+/, label: "Contains a question title" },
-  { re: /^(?!\s*$).+/, label: "Contains a question" },
-  { re: /^(?!\s*$).+/, label: "Contains a solution" },
-  { re: /^(?!\s*$).+/, label: "Contains a difficulty" },
-];
-
-export function SystemQuestions({
-  title,
-  fields,
-}: {
-  title: string;
-  fields: { label: string; value: string }[];
-}) {
+export function SystemQuestions(props: any) {
   const { classes, theme, cx } = useStyles();
 
-  const [questions, setQuestions] = useState(["", "", "", "", ""]);
-  const [strengths, setStrengths] = useState([0, 0, 0, 0, 0]);
+  const form = useForm({
+    initialValues: {
+      topic: "",
+      question_title: "",
+      question: "",
+      solution: "",
+      difficulty: "",
 
-  const handleQuestionChange = (index: number, value: string) => {
-    const newQuestions = [...questions];
-    newQuestions[index] = value;
-    setQuestions(newQuestions);
-
-    const newStrengths = [...strengths];
-    newStrengths[index] = value === "" ? 0 : 20;
-    setStrengths(newStrengths);
-  };
-
-  var value = "";
-  var strength = 0;
-  for (let i = 0; i < questions.length; i++) {
-    value += questions[i];
-    strength += strengths[i];
-  }
-
-  const bars = Array(5)
-    .fill(0)
-    .map((_, index) => (
-      <Progress
-        styles={{ bar: { transitionDuration: "0ms" } }}
-        value={
-          value.length > 0 && index === 0
-            ? 100
-            : strength >= ((index + 1) / 5) * 100
-            ? 100
-            : 0
-        }
-        color={strength > 80 ? "teal" : strength > 50 ? "yellow" : "red"}
-        key={index}
-        size={5}
-      />
-    ));
+      validate: {
+        topic: (val: string) =>
+          /^(?!\s*$).+/.test(val) ? null : "Invalid topic",
+        question_title: (val: string) =>
+          /^(?!\s*$).+/.test(val) ? null : "Invalid question title",
+        question: (val: string) =>
+          /^(?!\s*$).+/.test(val) ? null : "Invalid question",
+        solution: (val: string) =>
+          /^(?!\s*$).+/.test(val) ? null : "Invalid solution",
+        difficulty: (val: string) =>
+          /^(?!\s*$).+/.test(val) ? null : "Invalid difficulty",
+      },
+    },
+  });
 
   const onSubmit = async () => {
     notifications.show({
@@ -131,11 +92,11 @@ export function SystemQuestions({
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          topic: questions[0],
-          question_title: questions[1],
-          question: questions[2],
-          solution: questions[3],
-          difficulty: questions[4],
+          topic: form.values.topic,
+          question_title: form.values.question_title,
+          question: form.values.question,
+          solution: form.values.solution,
+          difficulty: form.values.difficulty,
         }),
       });
 
@@ -172,101 +133,114 @@ export function SystemQuestions({
     }
   };
 
+  const onFail = async () => {
+    console.log("Fail");
+  };
+
   return (
     <Card p="lg" shadow="md" className={classes.card}>
-      <Text className={classes.cardTitle}>{title}</Text>
-      {fields.map((field, index) => (
-        <React.Fragment key={index}>
-          <Text
-            mt={index === 0 ? "xl" : "md"}
-            className={classes.cardDescription}
+      <Text className={classes.cardTitle}>Add a question</Text>
+
+      <form onSubmit={form.onSubmit(() => {})}>
+        <Text mt="xl" className={classes.cardDescription}>
+          Topic
+        </Text>
+        <Select
+          id="1"
+          required
+          placeholder="Select a topic"
+          mt="sm"
+          searchable
+          data={["OOP", "Networks", "Algorithms", "Virtualization"]}
+          onChange={(value) => form.setFieldValue("topic", value!)}
+          error={form.errors.topic && "Invalid topic"}
+          variant="filled"
+          radius="md"
+        />
+
+        <Text mt="md" className={classes.cardDescription}>
+          Question Title
+        </Text>
+        <Textarea
+          id="2"
+          required
+          autosize
+          minRows={1}
+          placeholder="Enter your question title here..."
+          mt="sm"
+          onChange={(event) =>
+            form.setFieldValue("question_title", event.currentTarget.value)
+          }
+          variant="filled"
+          radius="md"
+        />
+
+        <Text mt="md" className={classes.cardDescription}>
+          Question
+        </Text>
+        <Textarea
+          id="3"
+          required
+          autosize
+          minRows={1}
+          placeholder="Enter your question here..."
+          mt="sm"
+          onChange={(event) =>
+            form.setFieldValue("question", event.currentTarget.value)
+          }
+          error={form.errors.question && "Invalid question"}
+          variant="filled"
+          radius="md"
+        />
+
+        <Text mt="md" className={classes.cardDescription}>
+          Solution
+        </Text>
+        <Textarea
+          id="4"
+          required
+          autosize
+          minRows={2}
+          placeholder="Enter your solution here..."
+          mt="sm"
+          onChange={(event) =>
+            form.setFieldValue("solution", event.currentTarget.value)
+          }
+          error={form.errors.solution && "Invalid solution"}
+          variant="filled"
+          radius="md"
+        />
+
+        <Text mt="md" className={classes.cardDescription}>
+          Difficulty
+        </Text>
+        <Select
+          id="5"
+          required
+          placeholder="Select a difficulty"
+          mt="sm"
+          searchable
+          data={["Beginner", "Intermediate", "Advanced"]}
+          onChange={(value) => form.setFieldValue("difficulty", value!)}
+          error={form.errors.difficulty && "Invalid difficulty"}
+          variant="filled"
+          radius="md"
+        />
+
+        <Divider mt="lg" mb="lg" />
+
+        <Group position="right">
+          <Button
+            onClick={areFieldsDirty(form) ? onSubmit : onFail}
+            type="submit"
           >
-            {field.value}
-          </Text>
-
-          {index === 0 && (
-            <Select
-              placeholder="Select a topic"
-              mt="sm"
-              searchable
-              data={["OOP", "Networks", "Algorithms", "Virtualization"]}
-              value={questions[index]}
-              onChange={(value) => handleQuestionChange(index, value!)}
-            />
-          )}
-
-          {index === 1 && (
-            <Textarea
-              autosize
-              minRows={1}
-              placeholder="Enter your question title here..."
-              mt="sm"
-              value={questions[index]}
-              onChange={(event) =>
-                handleQuestionChange(index, event.target.value)
-              }
-            />
-          )}
-
-          {index === 2 && (
-            <Textarea
-              autosize
-              minRows={1}
-              placeholder="Enter your question here..."
-              mt="sm"
-              value={questions[index]}
-              onChange={(event) =>
-                handleQuestionChange(index, event.target.value)
-              }
-            />
-          )}
-
-          {index === 3 && (
-            <Textarea
-              autosize
-              minRows={2}
-              placeholder="Enter your solution here..."
-              mt="sm"
-              value={questions[index]}
-              onChange={(event) =>
-                handleQuestionChange(index, event.target.value)
-              }
-            />
-          )}
-
-          {index === 4 && (
-            <Select
-              placeholder="Select a difficulty"
-              mt="sm"
-              searchable
-              data={["Beginner", "Intermediate", "Advanced"]}
-              value={questions[index]}
-              onChange={(value) => handleQuestionChange(index, value!)}
-            />
-          )}
-        </React.Fragment>
-      ))}
-      <div>
-        <Group spacing={5} grow mt="xl">
-          {bars}
+            Add
+          </Button>
+          <Button type="reset" color="red">
+            Clear
+          </Button>
         </Group>
-        {requirements.map((requirement, reqIndex) => (
-          <QuestionRequirement
-            key={reqIndex}
-            label={requirement.label}
-            meets={requirement.re.test(questions[reqIndex])}
-          />
-        ))}
-      </div>
-
-      <Divider mt="lg" mb="lg" />
-
-      <Group position="right">
-        <Button disabled={strength === 100 ? false : true} onClick={onSubmit}>
-          {" "}
-          Add new question
-        </Button>
-      </Group>
+      </form>
     </Card>
   );
 }
