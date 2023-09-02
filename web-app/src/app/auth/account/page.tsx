@@ -194,14 +194,6 @@ export const Account = () => {
     },
   ];
 
-  const questionsFields = [
-    { label: "Topic", value: "Topic" },
-    { label: "Question Title", value: "Question Title" },
-    { label: "Question", value: "Question" },
-    { label: "Solution", value: "Solution" },
-    { label: "Difficulty", value: "Difficulty" },
-  ];
-
   return (
     <Center mt="xl">
       <div style={{ display: "flex" }}>
@@ -280,10 +272,7 @@ export const Account = () => {
 
             {active === "Questions" && (
               <>
-                <SystemQuestions
-                  title="Add a question"
-                  fields={questionsFields}
-                />
+                <SystemQuestions />
               </>
             )}
           </SimpleGrid>
