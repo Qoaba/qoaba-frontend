@@ -4,17 +4,46 @@ import { useEffect, useState } from "react";
 import { NotFoundTitle } from "./404page";
 import { HeaderMegaMenu } from "../Header";
 import { FaqSimple } from "./Dropdown";
-import { Loader, Container, SimpleGrid, Center, SegmentedControl } from "@mantine/core";
+import {
+  Loader,
+  Container,
+  SimpleGrid,
+  Center,
+  SegmentedControl,
+} from "@mantine/core";
 import { ContainedInputs } from "./Test";
+import { FooterLinks } from "../../components/Footer";
+
+const footerData = [
+  {
+    title: "Products",
+    links: [
+      { label: "Feature 1", link: "#" },
+      { label: "Feature 2", link: "#" },
+      // Add more links as needed
+    ],
+  },
+  {
+    title: "Resources",
+    links: [
+      { label: "Documentation", link: "#" },
+      { label: "Tutorials", link: "#" },
+      // Add more links as needed
+    ],
+  },
+  // Add more groups as needed
+];
 
 interface NavbarSegmentedProps {
-  setSelectedTab: (value: 'flash' | 'learn' | 'test' | 'match') => void;
+  setSelectedTab: (value: "flash" | "learn" | "test" | "match") => void;
 }
 
 function NavbarSegmented({ setSelectedTab }: NavbarSegmentedProps) {
-  const [section, setSection] = useState<'flash' | 'learn' | 'test' | 'match'>('flash');
+  const [section, setSection] = useState<"flash" | "learn" | "test" | "match">(
+    "flash"
+  );
 
-  const handleTabChange = (value: 'flash' | 'learn' | 'test') => {
+  const handleTabChange = (value: "flash" | "learn" | "test") => {
     setSection(value);
     setSelectedTab(value);
   };
@@ -26,10 +55,10 @@ function NavbarSegmented({ setSelectedTab }: NavbarSegmentedProps) {
       transitionTimingFunction="ease"
       fullWidth
       data={[
-        { label: 'flash', value: 'flash' },
-        { label: 'learn', value: 'learn' },
-        { label: 'test', value: 'test' },
-        { label: 'match', value: 'match' }
+        { label: "Flash Card", value: "flash" },
+        { label: "Learn", value: "learn" },
+        { label: "Test", value: "test" },
+        { label: "Match", value: "match" },
       ]}
     />
   );
@@ -38,7 +67,9 @@ function NavbarSegmented({ setSelectedTab }: NavbarSegmentedProps) {
 export default function Page({ params }: { params: { question: string } }) {
   const [questionData, setQuestionData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedTab, setSelectedTab] = useState<'flash' | 'learn' | 'test' | 'match'>('flash');
+  const [selectedTab, setSelectedTab] = useState<
+    "flash" | "learn" | "test" | "match"
+  >("flash");
 
   useEffect(() => {
     const apiUrl = `http://localhost:8000/api/questions/${params.question}`;
@@ -86,10 +117,14 @@ export default function Page({ params }: { params: { question: string } }) {
       </Center>
       <Center>
         <SimpleGrid w={750} cols={1} spacing="lg">
-          {selectedTab === 'flash' && <FaqSimple questionData={questionData} />}
-          {selectedTab === 'test' && <ContainedInputs />}
+          {selectedTab === "flash" && <FaqSimple questionData={questionData} />}
+          {selectedTab === "test" && <ContainedInputs />}
         </SimpleGrid>
       </Center>
+      {/* Remove Padding if/when the questions push the footer to the bottom*/}
+      <div style={{ marginTop: "400px" }}>
+        <FooterLinks data={footerData} />
+      </div>
     </div>
   );
 }
