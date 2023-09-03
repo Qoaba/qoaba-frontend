@@ -154,13 +154,13 @@ export function FooterLinks({ data }: FooterLinksProps) {
           {theme.colorScheme === "dark" ? (
             <Image
               maw={85}
-              src="./logo-text-darkmode.svg"
+              src="/logo-text-darkmode.svg"
               alt="Darkmode Qoaba logo with text"
             />
           ) : (
             <Image
               maw={85}
-              src="./logo-text-lightmode.svg"
+              src="/logo-text-lightmode.svg"
               alt="Darkmode Qoaba logo with text"
             />
           )}
