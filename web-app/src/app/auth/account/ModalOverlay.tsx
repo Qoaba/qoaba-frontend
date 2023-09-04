@@ -23,6 +23,8 @@ export function ModelOverlay({ index }: { index: number }) {
   const { data: session } = useSession();
 
   const email: string = session!.user.email;
+  const id: string = session!.user.id;
+
   const changeUsernameForm = useForm({
     initialValues: {
       username: "",
@@ -33,6 +35,27 @@ export function ModelOverlay({ index }: { index: number }) {
         val.length < 5 ? "Username must be at least 5 characters long" : null,
     },
   });
+  const onChangeUsernameFormSubmit = async () => {
+    const res = await fetch("http://127.0.0.1:8000/api/users/" + id, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: changeUsernameForm.values.username,
+        email: email,
+        password: "",
+      }),
+    });
+
+    if (res.ok) {
+      console.log("Username changed");
+      console.log(await res.text());
+    } else {
+      console.log("Username change failed");
+      console.log(await res.text());
+    }
+  };
 
   return (
     <>
@@ -41,6 +64,7 @@ export function ModelOverlay({ index }: { index: number }) {
           <form onSubmit={changeUsernameForm.onSubmit(() => {})}>
             <TextInput
               required
+              withAsterisk={false}
               variant="filled"
               radius="md"
               label="New username"
@@ -52,7 +76,9 @@ export function ModelOverlay({ index }: { index: number }) {
 
             <Divider mt="xl" />
             <Group mt="xl" position="right">
-              <Button type="submit">Confirm change</Button>
+              <Button type="submit" onClick={onChangeUsernameFormSubmit}>
+                Confirm change
+              </Button>
               <Button style={{ background: theme.colors.dark[3] }}>
                 Cancel
               </Button>
@@ -65,6 +91,7 @@ export function ModelOverlay({ index }: { index: number }) {
         <>
           <TextInput
             required
+            withAsterisk={false}
             variant="filled"
             radius="md"
             label="New email"
@@ -75,6 +102,7 @@ export function ModelOverlay({ index }: { index: number }) {
 
           <TextInput
             required
+            withAsterisk={false}
             variant="filled"
             radius="md"
             label="Password"
@@ -93,6 +121,7 @@ export function ModelOverlay({ index }: { index: number }) {
         <>
           <TextInput
             required
+            withAsterisk={false}
             variant="filled"
             radius="md"
             label="Current password"
@@ -103,6 +132,7 @@ export function ModelOverlay({ index }: { index: number }) {
 
           <TextInput
             required
+            withAsterisk={false}
             variant="filled"
             radius="md"
             label="New password"
@@ -150,6 +180,7 @@ export function ModelOverlay({ index }: { index: number }) {
 
           <TextInput
             required
+            withAsterisk={false}
             variant="filled"
             radius="md"
             label="Email"
@@ -160,6 +191,7 @@ export function ModelOverlay({ index }: { index: number }) {
 
           <TextInput
             required
+            withAsterisk={false}
             variant="filled"
             radius="md"
             label="Password"
