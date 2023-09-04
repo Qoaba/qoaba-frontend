@@ -4,9 +4,6 @@ import {
   rem,
   Card,
   Textarea,
-  Center,
-  Box,
-  Progress,
   Group,
   Divider,
   Button,
@@ -15,7 +12,6 @@ import {
 import { notifications } from "@mantine/notifications";
 import { IconCheck, IconX } from "@tabler/icons-react";
 import React from "react";
-import { useState } from "react";
 import { useForm } from "@mantine/form";
 
 const useStyles = createStyles((theme) => ({
@@ -153,7 +149,7 @@ export function SystemQuestions(props: any) {
           searchable
           data={["OOP", "Networks", "Algorithms", "Virtualization"]}
           onChange={(value) => form.setFieldValue("topic", value!)}
-          error={form.errors.topic && "Invalid topic"}
+          error={form.errors.topic}
           variant="filled"
           radius="md"
         />
@@ -171,6 +167,7 @@ export function SystemQuestions(props: any) {
           onChange={(event) =>
             form.setFieldValue("question_title", event.currentTarget.value)
           }
+          error={form.errors.question_title}
           variant="filled"
           radius="md"
         />
@@ -188,7 +185,7 @@ export function SystemQuestions(props: any) {
           onChange={(event) =>
             form.setFieldValue("question", event.currentTarget.value)
           }
-          error={form.errors.question && "Invalid question"}
+          error={form.errors.question}
           variant="filled"
           radius="md"
         />
@@ -206,7 +203,7 @@ export function SystemQuestions(props: any) {
           onChange={(event) =>
             form.setFieldValue("solution", event.currentTarget.value)
           }
-          error={form.errors.solution && "Invalid solution"}
+          error={form.errors.solution}
           variant="filled"
           radius="md"
         />
@@ -222,7 +219,7 @@ export function SystemQuestions(props: any) {
           searchable
           data={["Beginner", "Intermediate", "Advanced"]}
           onChange={(value) => form.setFieldValue("difficulty", value!)}
-          error={form.errors.difficulty && "Invalid difficulty"}
+          error={form.errors.difficulty}
           variant="filled"
           radius="md"
         />

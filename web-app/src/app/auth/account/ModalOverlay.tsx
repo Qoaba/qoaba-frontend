@@ -9,6 +9,8 @@ import {
   Box,
 } from "@mantine/core";
 import React from "react";
+import { useSession } from "next-auth/react";
+import { Form, useForm } from "@mantine/form";
 
 const useStyles = createStyles((theme) => ({
   list: {
@@ -18,38 +20,66 @@ const useStyles = createStyles((theme) => ({
 
 export function ModelOverlay({ index }: { index: number }) {
   const { classes, theme, cx } = useStyles();
+  const { data: session } = useSession();
+
+  const email: string = session!.user.email;
+  const changeUsernameForm = useForm({
+    initialValues: {
+      username: "",
+    },
+
+    validate: {
+      username: (val: string) =>
+        val.length < 5 ? "Username must be at least 5 characters long" : null,
+    },
+  });
+
   return (
     <>
       {index === 0 && (
         <>
-          <TextInput
-            label="New username"
-            placeholder="Enter your new username..."
-            mt="md"
-            mb="md"
-          ></TextInput>
+          <form onSubmit={changeUsernameForm.onSubmit(() => {})}>
+            <TextInput
+              required
+              variant="filled"
+              radius="md"
+              label="New username"
+              placeholder="Enter your new username..."
+              mt="md"
+              mb="md"
+              {...changeUsernameForm.getInputProps("username")}
+            ></TextInput>
 
-          <Divider mt="xl" />
-          <Group mt="xl" position="right">
-            <Button>Confirm change</Button>
-            <Button style={{ background: theme.colors.dark[3] }}>Cancel</Button>
-          </Group>
+            <Divider mt="xl" />
+            <Group mt="xl" position="right">
+              <Button type="submit">Confirm change</Button>
+              <Button style={{ background: theme.colors.dark[3] }}>
+                Cancel
+              </Button>
+            </Group>
+          </form>
         </>
       )}
 
       {index === 1 && (
         <>
           <TextInput
+            required
+            variant="filled"
+            radius="md"
             label="New email"
             placeholder="Enter your new email address..."
             mt="md"
             mb="md"
-          ></TextInput>
+          />
 
           <TextInput
+            required
+            variant="filled"
+            radius="md"
             label="Password"
             placeholder="Enter your password..."
-          ></TextInput>
+          />
 
           <Divider mt="xl" />
           <Group mt="xl" position="right">
@@ -62,16 +92,22 @@ export function ModelOverlay({ index }: { index: number }) {
       {index === 2 && (
         <>
           <TextInput
+            required
+            variant="filled"
+            radius="md"
             label="Current password"
             placeholder="Enter your old password..."
             mt="md"
             mb="md"
-          ></TextInput>
+          />
 
           <TextInput
+            required
+            variant="filled"
+            radius="md"
             label="New password"
             placeholder="Enter your new password..."
-          ></TextInput>
+          />
 
           <Divider mt="xl" />
           <Group mt="xl" position="right">
@@ -113,16 +149,22 @@ export function ModelOverlay({ index }: { index: number }) {
           </Text>
 
           <TextInput
+            required
+            variant="filled"
+            radius="md"
             label="Email"
             placeholder="Enter email to confirm..."
             mt="md"
             mb="md"
-          ></TextInput>
+          />
 
           <TextInput
+            required
+            variant="filled"
+            radius="md"
             label="Password"
             placeholder="Enter password to confirm..."
-          ></TextInput>
+          />
 
           <Divider mt="xl" />
           <Group mt="xl" position="right">
