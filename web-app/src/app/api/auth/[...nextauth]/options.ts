@@ -1,4 +1,4 @@
-import type { NextAuthOptions } from "next-auth";
+import type { DefaultSession, NextAuthOptions } from "next-auth";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider, { GoogleProfile } from "next-auth/providers/google";
@@ -51,6 +51,7 @@ export const options: NextAuthOptions = {
             image: selectedValues[1],
             email: credentials?.email,
             role: selectedValues[2],
+            id: selectedValues[3],
           };
           return user as any;
         }
@@ -66,11 +67,17 @@ export const options: NextAuthOptions = {
   },
   callbacks: {
     async jwt({ token, user }) {
-      if (user) token.role = user.role;
+      if (user) {
+        token.role = user.role;
+        token.id = user.id;
+      }
       return token;
     },
     async session({ session, token }) {
-      if (session?.user) session.user.role = token.role;
+      if (session?.user) {
+        session.user.role = token.role;
+        session.user.id = token.id;
+      }
       return session;
     },
   },
