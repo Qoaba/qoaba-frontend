@@ -1,24 +1,17 @@
-import { createStyles, rem, Select, TextInput, Card } from '@mantine/core';
+import {
+  Text,
+  createStyles,
+  rem,
+  Card,
+  Textarea,
+  Group,
+  Divider,
+  Button,
+} from "@mantine/core";
+import React, { useState } from "react";
+import { useForm } from "@mantine/form";
 
 const useStyles = createStyles((theme) => ({
-  root: {
-    position: 'relative',
-  },
-
-  input: {
-    height: rem(54),
-    paddingTop: rem(18),
-  },
-
-  label: {
-    position: 'absolute',
-    pointerEvents: 'none',
-    fontSize: theme.fontSizes.xs,
-    paddingLeft: theme.spacing.sm,
-    paddingTop: `calc(${theme.spacing.sm} / 2)`,
-    zIndex: 1,
-  },
-
   card: {
     border: "none",
   },
@@ -39,22 +32,74 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export function ContainedInputs() {
-  // You can add these classes as classNames to any Mantine input, it will work the same
-  const { classes } = useStyles();
+export function SystemQuestions({ questionData }: { questionData: any }) {
+  const { classes, theme, cx } = useStyles();
+
+  const form = useForm({
+    initialValues: {
+      answer: "",
+    },
+  });
+
+  const [isCorrect, setIsCorrect] = useState(false);
+
+  const onSubmit = () => {
+    // Your logic to determine correctness goes here
+    // For demonstration purposes, we'll consider it correct
+    setIsCorrect(true);
+  };
+
+  console.log("questionData:", questionData);
 
   return (
     <Card p="lg" shadow="md" className={classes.card}>
-      <TextInput label="Shipping address" placeholder="15329 Huston 21st" classNames={classes} />
+      {questionData.data.map((question: any) => (
+        <div key={question.id}>
+          <Text className={classes.cardTitle}>{question.question}</Text>
+          
+          <Text mt="md" className={classes.cardDescription}>
+            Enter your answer below:
+          </Text>
 
-      <Select
-        mt="md"
-        withinPortal
-        data={['React', 'Angular', 'Svelte', 'Vue']}
-        placeholder="Pick one"
-        label="Your favorite library/framework"
-        classNames={classes}
-      />
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              form.onSubmit(() => {
+                onSubmit();
+              })();
+            }}
+          >
+            <Textarea
+              id="2"
+              required
+              autosize
+              minRows={1}
+              placeholder="Enter your answer here..."
+              mt="sm"
+              onChange={(event) =>
+                form.setFieldValue("answer", event.currentTarget.value)
+              }
+              variant="filled"
+              radius="md"
+            />
+
+            <Divider mt="lg" mb="lg" />
+
+            <Group position="right">
+              <Button type="submit">Submit</Button>
+              <Button type="reset" color="red">
+                Clear
+              </Button>
+            </Group>
+          </form>
+
+          {isCorrect && (
+            <Text mt="md" color="teal">
+              Correct
+            </Text>
+          )}
+        </div>
+      ))}
     </Card>
   );
 }
