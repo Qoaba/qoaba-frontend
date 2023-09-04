@@ -6,8 +6,6 @@ import {
   Stack,
   TextInput,
 } from "@mantine/core";
-import { notifications } from "@mantine/notifications";
-import { IconCheck, IconX } from "@tabler/icons-react";
 import PasswordStrength from "./PasswordStrength";
 import { useForm } from "@mantine/form";
 import { signIn } from "next-auth/react";
@@ -31,15 +29,6 @@ export default function SignUpForm(props: any) {
   });
 
   const onSubmit = async () => {
-    notifications.show({
-      id: "uploading-notification",
-      loading: true,
-      title: "Creating user account",
-      message: "User account is being created, please wait...",
-      autoClose: false,
-      withCloseButton: false,
-    });
-
     try {
       const res = await fetch("http://127.0.0.1:8000/api/users", {
         method: "POST",
@@ -54,14 +43,6 @@ export default function SignUpForm(props: any) {
       });
 
       if (res.ok) {
-        notifications.update({
-          id: "uploading-notification",
-          color: "teal",
-          title: "User account created successfully",
-          message: "Redirecting to account page...",
-          icon: <IconCheck size="1rem" />,
-          autoClose: 2000,
-        });
         await signIn("credentials", {
           email: form.values.email,
           password: form.values.password,
@@ -69,27 +50,9 @@ export default function SignUpForm(props: any) {
           callbackUrl: "/auth/account",
         });
       } else {
-        notifications.update({
-          id: "uploading-notification",
-          color: "red",
-          title: "Error creating user account",
-          message:
-            "There was an error creating the user account. Please try again.",
-          icon: <IconX size="1rem" />,
-          autoClose: 3000,
-        });
+        throw new Error("Error creating user account");
       }
-    } catch (error) {
-      notifications.update({
-        id: "uploading-notification",
-        color: "red",
-        title: "Error creating user account",
-        message:
-          "There was an error creating the user account. Please try again.",
-        icon: <IconX size="1rem" />,
-        autoClose: 3000,
-      });
-    }
+    } catch (error) {}
   };
 
   return (

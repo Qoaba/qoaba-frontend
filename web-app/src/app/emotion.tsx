@@ -6,8 +6,8 @@ import {
   ColorSchemeProvider,
   ColorScheme,
   useEmotionCache,
+  rem,
 } from "@mantine/core";
-import { Notifications } from "@mantine/notifications";
 import { useHotkeys, useLocalStorage } from "@mantine/hooks";
 import { CustomFonts } from "./components/CustomFonts";
 
@@ -78,6 +78,7 @@ function RootStyleRegistry({ children }: { children: React.ReactNode }) {
                         theme.colorScheme === "dark"
                           ? theme.colors.dark[6]
                           : theme.white,
+                      fontSize: rem(14),
                       color:
                         theme.colorScheme === "dark"
                           ? theme.white
@@ -89,7 +90,6 @@ function RootStyleRegistry({ children }: { children: React.ReactNode }) {
             },
           }}
         >
-          <Notifications />
           {children}
         </MantineProvider>
       </ColorSchemeProvider>

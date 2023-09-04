@@ -7,18 +7,28 @@ import {
   List,
   createStyles,
   Box,
+  rem,
 } from "@mantine/core";
 import React from "react";
 import { useSession } from "next-auth/react";
 import { Form, useForm } from "@mantine/form";
+import { useState } from "react";
 
 const useStyles = createStyles((theme) => ({
   list: {
     color: theme.colorScheme === "dark" ? theme.white : theme.black,
+    fontSize: rem(14),
   },
 }));
 
-export function ModelOverlay({ index }: { index: number }) {
+export function ModelOverlay({
+  index,
+  manipulateModal,
+}: {
+  index: number;
+  manipulateModal: any;
+}) {
+  const [modalContent, setModalContent] = useState("form");
   const { classes, theme, cx } = useStyles();
   const { data: session } = useSession();
 
@@ -49,11 +59,9 @@ export function ModelOverlay({ index }: { index: number }) {
     });
 
     if (res.ok) {
-      console.log("Username changed");
-      console.log(await res.text());
+      setModalContent("success");
     } else {
-      console.log("Username change failed");
-      console.log(await res.text());
+      setModalContent("failure");
     }
   };
 
@@ -61,29 +69,60 @@ export function ModelOverlay({ index }: { index: number }) {
     <>
       {index === 0 && (
         <>
-          <form onSubmit={changeUsernameForm.onSubmit(() => {})}>
-            <TextInput
-              required
-              withAsterisk={false}
-              variant="filled"
-              radius="md"
-              label="New username"
-              placeholder="Enter your new username..."
-              mt="md"
-              mb="md"
-              {...changeUsernameForm.getInputProps("username")}
-            ></TextInput>
+          {modalContent === "form" && (
+            <form onSubmit={changeUsernameForm.onSubmit(() => {})}>
+              <TextInput
+                required
+                withAsterisk={false}
+                variant="filled"
+                radius="md"
+                label="New username"
+                placeholder="Enter your new username..."
+                mt="md"
+                mb="md"
+                {...changeUsernameForm.getInputProps("username")}
+              />
 
-            <Divider mt="xl" />
-            <Group mt="xl" position="right">
-              <Button type="submit" onClick={onChangeUsernameFormSubmit}>
-                Confirm change
-              </Button>
-              <Button style={{ background: theme.colors.dark[3] }}>
-                Cancel
-              </Button>
-            </Group>
-          </form>
+              <Divider mt="xl" />
+              <Group mt="xl" position="right">
+                <Button type="submit" onClick={onChangeUsernameFormSubmit}>
+                  Confirm change
+                </Button>
+                <Button
+                  style={{ background: theme.colors.dark[3] }}
+                  onClick={() => manipulateModal(index)}
+                >
+                  Cancel
+                </Button>
+              </Group>
+            </form>
+          )}
+
+          {modalContent === "success" && (
+            <>
+              <Text mt="md" mb="md">
+                Your username has been successfully updated! To see the changes,
+                please log out and log back in.
+              </Text>
+              <Divider mt="xl" />
+              <Group mt="xl" position="right">
+                <Button onClick={() => manipulateModal(index)}>Got it</Button>
+              </Group>
+            </>
+          )}
+
+          {modalContent === "failure" && (
+            <>
+              <Text mt="md" mb="md">
+                Something went wrong. Please try again with a different
+                username.
+              </Text>
+              <Divider mt="xl" />
+              <Group mt="xl" position="right">
+                <Button onClick={() => manipulateModal(index)}>Got it</Button>
+              </Group>
+            </>
+          )}
         </>
       )}
 

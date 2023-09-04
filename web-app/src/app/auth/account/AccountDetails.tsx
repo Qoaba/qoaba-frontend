@@ -117,7 +117,7 @@ export function AccountDetails({
             size="md"
             radius="md"
           >
-            <ModelOverlay index={index} />
+            <ModelOverlay index={index} manipulateModal={closeModal} />
           </Modal>
           {index < fields.length - 1 && <Divider mt="md" />}
         </React.Fragment>
