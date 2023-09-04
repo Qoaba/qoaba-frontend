@@ -86,7 +86,7 @@ export default function Page() {
             {tableData.length > 0 ? (
               <TableSort data={tableData}></TableSort>
             ) : (
-              <Text weight={500} align="center">g
+              <Text weight={500} align="center">
                 Nothing found
               </Text>
             )}
