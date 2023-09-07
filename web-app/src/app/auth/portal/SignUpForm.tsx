@@ -20,8 +20,8 @@ export default function SignUpForm(props: any) {
     },
 
     validate: {
-      email: (val) => (/^\S+@\S+$/.test(val) ? null : "Invalid email"),
-      password: (val) =>
+      email: (val: string) => (/^\S+@\S+$/.test(val) ? null : "Invalid email"),
+      password: (val: string) =>
         val.length <= 6
           ? "Password should include at least 6 characters"
           : null,
