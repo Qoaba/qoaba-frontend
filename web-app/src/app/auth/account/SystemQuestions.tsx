@@ -9,7 +9,6 @@ import {
   Button,
   Select,
 } from "@mantine/core";
-import { IconCheck, IconX } from "@tabler/icons-react";
 import React from "react";
 import { useForm } from "@mantine/form";
 
@@ -115,7 +114,6 @@ export function SystemQuestions(props: any) {
           onChange={(value) => form.setFieldValue("topic", value!)}
           error={form.errors.topic}
           variant="filled"
-          radius="md"
         />
 
         <Text mt="md" className={classes.cardDescription}>
@@ -133,7 +131,6 @@ export function SystemQuestions(props: any) {
           }
           error={form.errors.question_title}
           variant="filled"
-          radius="md"
         />
 
         <Text mt="md" className={classes.cardDescription}>
@@ -151,7 +148,6 @@ export function SystemQuestions(props: any) {
           }
           error={form.errors.question}
           variant="filled"
-          radius="md"
         />
 
         <Text mt="md" className={classes.cardDescription}>
@@ -169,7 +165,6 @@ export function SystemQuestions(props: any) {
           }
           error={form.errors.solution}
           variant="filled"
-          radius="md"
         />
 
         <Text mt="md" className={classes.cardDescription}>
@@ -185,7 +180,6 @@ export function SystemQuestions(props: any) {
           onChange={(value) => form.setFieldValue("difficulty", value!)}
           error={form.errors.difficulty}
           variant="filled"
-          radius="md"
         />
 
         <Divider mt="lg" mb="lg" />

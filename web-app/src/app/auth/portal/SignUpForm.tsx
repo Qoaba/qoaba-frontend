@@ -108,7 +108,7 @@ export default function SignUpForm(props: any) {
         >
           Already have an account? Sign in
         </Anchor>
-        <Button onClick={onSubmit} type="submit" radius="xl">
+        <Button onClick={onSubmit} type="submit">
           Sign up
         </Button>
       </Group>

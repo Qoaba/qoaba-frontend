@@ -49,7 +49,6 @@ export default function SignInForm(props: any) {
             form.setFieldValue("email", event.currentTarget.value)
           }
           error={form.errors.email && "Invalid email"}
-          radius="md"
         />
 
         <PasswordInput
@@ -66,7 +65,6 @@ export default function SignInForm(props: any) {
             form.errors.password &&
             "Password should include at least 6 characters"
           }
-          radius="md"
         />
       </Stack>
 
@@ -80,7 +78,7 @@ export default function SignInForm(props: any) {
         >
           Don&#39;t have an account? Create an account
         </Anchor>
-        <Button onClick={onSubmit} type="submit" radius="xl">
+        <Button onClick={onSubmit} type="submit">
           Sign in
         </Button>
       </Group>
