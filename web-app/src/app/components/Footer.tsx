@@ -13,6 +13,7 @@ import {
   IconBrandTwitter,
   IconBrandYoutube,
   IconBrandInstagram,
+  IconHeartFilled,
 } from "@tabler/icons-react";
 
 const useStyles = createStyles((theme) => ({
@@ -172,8 +173,22 @@ export function FooterLinks({ data }: FooterLinksProps) {
         <div className={classes.groups}>{groups}</div>
       </Container>
       <Container className={classes.afterFooter}>
-        <Text color="dimmed" size="sm">
-          Made with ❤️ in Canada © 2023 Qoaba
+        <Text
+          style={{ display: "flex", alignItems: "center" }}
+          color="dimmed"
+          size="sm"
+        >
+          Made with
+          <IconHeartFilled
+            size="1.05rem"
+            stroke={1.5}
+            style={{
+              marginLeft: "0.2rem",
+              marginRight: "0.2rem",
+              color: "red",
+            }}
+          />
+          in Canada © 2023 Qoaba
         </Text>
 
         <Group spacing={0} className={classes.social} position="right" noWrap>

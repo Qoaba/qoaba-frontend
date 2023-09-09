@@ -4,10 +4,10 @@ import {
   createStyles,
   Header,
   Group,
-  Button,
   Box,
   rem,
   Image,
+  Container,
 } from "@mantine/core";
 
 import { ColorSchemeToggle } from "./ToggleColorScheme";
@@ -52,46 +52,48 @@ export function HeaderMegaMenu() {
   const { data: session } = useSession();
 
   return (
-    <Box pb={120}>
-      <Header height={60} px="md" withBorder={false}>
-        <Group position="apart" sx={{ height: "100%" }}>
-          <Group position="left" classNames={classes.hiddenMobile}>
-            {theme.colorScheme === "dark" ? (
-              <Image
-                maw={120}
-                src="./logo-text-darkmode.svg"
-                alt="Darkmode Qoaba logo with text"
-              />
-            ) : (
-              <Image
-                maw={120}
-                src="./logo-text-lightmode.svg"
-                alt="Lightmode Qoaba logo with text"
-              />
-            )}
+    <Container size="lg" px={0}>
+      <Box pb={200}>
+        <Header height={60} px="md" withBorder={false}>
+          <Group position="apart" sx={{ height: "100%" }}>
+            <Group position="left" classNames={classes.hiddenMobile}>
+              {theme.colorScheme === "dark" ? (
+                <Image
+                  maw={120}
+                  src="./logo-text-darkmode.svg"
+                  alt="Darkmode Qoaba logo with text"
+                />
+              ) : (
+                <Image
+                  maw={120}
+                  src="./logo-text-lightmode.svg"
+                  alt="Lightmode Qoaba logo with text"
+                />
+              )}
 
-            <a href="../questions" className={classes.link}>
-              Questions
-            </a>
-            <a href="#" className={classes.link}>
-              Analysis
-            </a>
-            <a href="#" className={classes.link}>
-              Pricing
-            </a>
-          </Group>
+              <a href="../questions" className={classes.link}>
+                Questions
+              </a>
+              <a href="#" className={classes.link}>
+                Analysis
+              </a>
+              <a href="#" className={classes.link}>
+                Pricing
+              </a>
+            </Group>
 
-          <Group position="right" classNames={classes.hiddenMobile}>
-            <a
-              href={session ? "/auth/account" : "/auth/portal"}
-              className={classes.link}
-            >
-              Account
-            </a>
-            <ColorSchemeToggle />
+            <Group position="right" classNames={classes.hiddenMobile}>
+              <a
+                href={session ? "/auth/account" : "/auth/portal"}
+                className={classes.link}
+              >
+                Account
+              </a>
+              <ColorSchemeToggle />
+            </Group>
           </Group>
-        </Group>
-      </Header>
-    </Box>
+        </Header>
+      </Box>
+    </Container>
   );
 }

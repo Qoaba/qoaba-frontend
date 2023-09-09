@@ -16,6 +16,7 @@ export function GoogleButton(props: ButtonProps) {
       leftIcon={<GoogleIcon />}
       variant="filled"
       {...props}
+      radius="sm"
     />
   );
 }
