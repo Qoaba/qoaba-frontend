@@ -6,6 +6,7 @@ const useStyles = createStyles(() => ({
     cursor: 'pointer',
     perspective: '1000px', // Enable 3D perspective for the flip effect
     transition: 'transform 0.5s', // Add a transition for the flip effect
+    height: '300px', // Adjust the height as needed
   },
 
   flipped: {
@@ -16,6 +17,7 @@ const useStyles = createStyles(() => ({
     width: '100%',
     height: '100%',
     display: 'flex',
+    flexDirection: 'column', // Use a column layout to display questions and solutions vertically
     justifyContent: 'center',
     alignItems: 'center',
     fontSize: '24px',
@@ -28,7 +30,7 @@ const useStyles = createStyles(() => ({
   },
 }));
 
-export function FeaturesCard() {
+export function FeaturesCard({ questionData }: { questionData: any }) {
   const { classes } = useStyles();
   const [isFlipped, setFlipped] = useState(false);
 
@@ -42,7 +44,11 @@ export function FeaturesCard() {
     <Card className={cardClass} onClick={toggleCard}>
       <div className={`${classes.cardContent} ${isFlipped ? classes.backFace : ''}`}>
         <Center>
-          {isFlipped ? 'World' : 'Hello'}
+          {questionData.data.map((question: any, index: number) => (
+            <div key={index}>
+              {isFlipped ? question.solution : question.question}
+            </div>
+          ))}
         </Center>
       </div>
     </Card>

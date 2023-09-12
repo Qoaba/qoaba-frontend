@@ -119,7 +119,7 @@ export default function Page({ params }: { params: { question: string } }) {
       <Center>
         <SimpleGrid w={750} cols={1} spacing="lg">
           {selectedTab === "flash" && <FaqSimple questionData={questionData} />}
-          {selectedTab === "learn" && <FeaturesCard/>}
+          {selectedTab === "learn" && <FeaturesCard questionData={questionData}/>}
           {selectedTab === "test" && <SystemQuestions questionData={questionData} /> }
         </SimpleGrid>
       </Center>
