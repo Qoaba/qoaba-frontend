@@ -47,17 +47,20 @@ export function ModelOverlay({
     },
   });
   const onChangeUsernameFormSubmit = async () => {
-    const res = await fetch(`http://127.0.0.1:8000/api/users/${id}/username`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: changeUsernameForm.values.username,
-        email: "",
-        password: "",
-      }),
-    });
+    const res = await fetch(
+      `http://127.0.0.1:8000/api/accounts/${id}/username`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: changeUsernameForm.values.username,
+          email: "",
+          password: "",
+        }),
+      }
+    );
 
     if (res.ok) {
       setModalContent("success");
@@ -81,7 +84,7 @@ export function ModelOverlay({
     },
   });
   const onChangeEmailFormSubmit = async () => {
-    const res = await fetch(`http://127.0.0.1:8000/api/users/${id}/email`, {
+    const res = await fetch(`http://127.0.0.1:8000/api/accounts/${id}/email`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -118,17 +121,20 @@ export function ModelOverlay({
     },
   });
   const onChangePasswordFormSubmit = async () => {
-    const res = await fetch(`http://127.0.0.1:8000/api/users/${id}/password`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: "",
-        email: "",
-        password: `${changePasswordForm.values.currentPassword} ${changePasswordForm.values.newPassword}`,
-      }),
-    });
+    const res = await fetch(
+      `http://127.0.0.1:8000/api/accounts/${id}/password`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: "",
+          email: "",
+          password: `${changePasswordForm.values.currentPassword} ${changePasswordForm.values.newPassword}`,
+        }),
+      }
+    );
 
     if (res.ok) {
       setModalContent("success");
@@ -152,7 +158,7 @@ export function ModelOverlay({
     },
   });
   const onDeleteAccountFormSubmit = async () => {
-    const res = await fetch(`http://127.0.0.1:8000/api/users/${id}`, {
+    const res = await fetch(`http://127.0.0.1:8000/api/accounts/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
