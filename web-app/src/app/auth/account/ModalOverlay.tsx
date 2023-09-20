@@ -38,11 +38,11 @@ export function ModelOverlay({
 
   const changeUsernameForm = useForm({
     initialValues: {
-      username: "",
+      name: "",
     },
 
     validate: {
-      username: (val: string) =>
+      name: (val: string) =>
         val.length < 5 ? "Username must be at least 5 characters long" : null,
     },
   });
@@ -55,7 +55,7 @@ export function ModelOverlay({
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username: changeUsernameForm.values.username,
+          name: changeUsernameForm.values.name,
           email: "",
           password: "",
         }),
@@ -90,7 +90,7 @@ export function ModelOverlay({
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        username: "",
+        name: "",
         email: changeEmailForm.values.email,
         password: changeEmailForm.values.password,
       }),
@@ -129,7 +129,7 @@ export function ModelOverlay({
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username: "",
+          name: "",
           email: "",
           password: `${changePasswordForm.values.currentPassword} ${changePasswordForm.values.newPassword}`,
         }),
@@ -164,7 +164,7 @@ export function ModelOverlay({
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        username: "",
+        name: "",
         email: deleteAccountForm.values.email,
         password: deleteAccountForm.values.password,
       }),
@@ -195,7 +195,7 @@ export function ModelOverlay({
                 placeholder="Enter your new username..."
                 mt="md"
                 mb="md"
-                {...changeUsernameForm.getInputProps("username")}
+                {...changeUsernameForm.getInputProps("name")}
               />
 
               <Divider mt="xl" />
@@ -203,7 +203,7 @@ export function ModelOverlay({
                 <Button
                   type="submit"
                   onClick={
-                    changeUsernameForm.isValid("username")
+                    changeUsernameForm.isValid("name")
                       ? onChangeUsernameFormSubmit
                       : () => {}
                   }
@@ -402,80 +402,92 @@ export function ModelOverlay({
       {index === 3 && (
         <>
           {modalContent === "form" && (
-            <form onSubmit={deleteAccountForm.onSubmit(() => {})}>
-              <Text mt="md" mb="sm">
-                Deleting your account is a permanent action with significant
-                consequences. Before proceeding, carefully review the following
-                information:
-              </Text>
+            <>
+              {session!.user.type === "oauth" ? (
+                <Text mt="md" mb="md">
+                  You cannot delete your account because you signed up with an
+                  OAuth provider. If you would like to delete your account,
+                  please contact us at{" "}
+                  <a href="mailto:help@qoaba.com">help@qoaba.com</a>.
+                </Text>
+              ) : (
+                <form onSubmit={deleteAccountForm.onSubmit(() => {})}>
+                  <Text mt="md" mb="sm">
+                    Deleting your account is a permanent action with significant
+                    consequences. Before proceeding, carefully review the
+                    following information:
+                  </Text>
 
-              <Box w={400}>
-                <List mb="sm" className={classes.list}>
-                  <List.Item>
-                    All your commercial licenses will be revoked.
-                  </List.Item>
-                  <List.Item>
-                    Payments associated with your account will not be eligible
-                    for refunds.
-                  </List.Item>
-                </List>
-              </Box>
+                  <Box w={400}>
+                    <List mb="sm" className={classes.list}>
+                      <List.Item>
+                        All your commercial licenses will be revoked.
+                      </List.Item>
+                      <List.Item>
+                        Payments associated with your account will not be
+                        eligible for refunds.
+                      </List.Item>
+                    </List>
+                  </Box>
 
-              <Text mb="sm" c="red">
-                Important: Account deletion is irreversible. Once your account
-                is deleted, it cannot be recovered under any circumstances.
-              </Text>
+                  <Text mb="sm" c="red">
+                    Important: Account deletion is irreversible. Once your
+                    account is deleted, it cannot be recovered under any
+                    circumstances.
+                  </Text>
 
-              <Text>
-                If you fully understand the consequences outlined above and
-                still wish to proceed, please confirm by entering your email and
-                password below:
-              </Text>
+                  <Text>
+                    If you fully understand the consequences outlined above and
+                    still wish to proceed, please confirm by entering your email
+                    and password below:
+                  </Text>
 
-              <TextInput
-                required
-                withAsterisk={false}
-                variant="filled"
-                radius="md"
-                label="Email"
-                placeholder="Enter email to confirm..."
-                mt="md"
-                mb="md"
-                {...deleteAccountForm.getInputProps("email")}
-              />
+                  <TextInput
+                    required
+                    withAsterisk={false}
+                    variant="filled"
+                    radius="md"
+                    label="Email"
+                    placeholder="Enter email to confirm..."
+                    mt="md"
+                    mb="md"
+                    {...deleteAccountForm.getInputProps("email")}
+                  />
 
-              <PasswordInput
-                required
-                withAsterisk={false}
-                variant="filled"
-                radius="md"
-                label="Password"
-                placeholder="Enter password to confirm..."
-                {...deleteAccountForm.getInputProps("password")}
-              />
+                  <PasswordInput
+                    required
+                    withAsterisk={false}
+                    variant="filled"
+                    radius="md"
+                    label="Password"
+                    placeholder="Enter password to confirm..."
+                    {...deleteAccountForm.getInputProps("password")}
+                  />
 
-              <Divider mt="xl" />
-              <Group mt="xl" position="right">
-                <Button
-                  color="red"
-                  onClick={
-                    deleteAccountForm.isValid("email") &&
-                    deleteAccountForm.isValid("password")
-                      ? onDeleteAccountFormSubmit
-                      : () => {}
-                  }
-                  type="submit"
-                >
-                  Confirm change
-                </Button>
-                <Button
-                  style={{ background: theme.colors.dark[3] }}
-                  onClick={() => manipulateModal(index)}
-                >
-                  Cancel
-                </Button>
-              </Group>
-            </form>
+                  <Divider mt="xl" />
+                  <Group mt="xl" position="right">
+                    <Button
+                      color="red"
+                      onClick={
+                        deleteAccountForm.isValid("email") &&
+                        deleteAccountForm.isValid("password")
+                          ? onDeleteAccountFormSubmit
+                          : () => {}
+                      }
+                      type="submit"
+                    >
+                      Confirm change
+                    </Button>
+                    <Button
+                      style={{ background: theme.colors.dark[3] }}
+                      onClick={() => manipulateModal(index)}
+                    >
+                      Cancel
+                    </Button>
+                  </Group>
+                </form>
+              )}
+            </>
           )}
 
           {modalContent === "success" && (
