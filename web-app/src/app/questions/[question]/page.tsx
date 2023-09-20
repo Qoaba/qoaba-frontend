@@ -12,7 +12,7 @@ import {
   SegmentedControl,
 } from "@mantine/core";
 import { SystemQuestions } from "./Test";
-import { FeaturesCard } from "./Learn";
+import { FeaturesCard } from "./FlashCard";
 import { FooterLinks } from "../../components/Footer";
 
 const footerData = [
@@ -118,8 +118,8 @@ export default function Page({ params }: { params: { question: string } }) {
       </Center>
       <Center>
         <SimpleGrid w={750} cols={1} spacing="lg">
-          {selectedTab === "flash" && <FaqSimple questionData={questionData} />}
-          {selectedTab === "learn" && <FeaturesCard questionData={questionData}/>}
+          {selectedTab === "flash" && <FeaturesCard questionData={questionData}/>}
+          {selectedTab === "learn" && <FaqSimple questionData={questionData} />}
           {selectedTab === "test" && <SystemQuestions questionData={questionData} /> }
         </SimpleGrid>
       </Center>
