@@ -38,9 +38,10 @@ export default function SignUpForm(props: any) {
         body: JSON.stringify({
           email: form.values.email,
           password: form.values.password,
-          username: form.values.name,
+          name: form.values.name,
         }),
       });
+      console.log(res.json());
 
       if (res.ok) {
         await signIn("credentials", {
