@@ -15,6 +15,7 @@ export const options: NextAuthOptions = {
           role: profile.role ?? "user",
           id: profile.sub,
           image: profile.picture,
+          type: profile.type ?? "oauth",
         };
       },
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -48,10 +49,11 @@ export const options: NextAuthOptions = {
           const selectedValues = Object.values(data);
           const user = {
             name: selectedValues[0],
-            image: selectedValues[1],
             email: credentials?.email,
-            role: selectedValues[2],
-            id: selectedValues[3],
+            type: selectedValues[1],
+            image: selectedValues[2],
+            role: selectedValues[3],
+            id: selectedValues[4],
           };
           return user as any;
         }
@@ -70,6 +72,7 @@ export const options: NextAuthOptions = {
       if (user) {
         token.role = user.role;
         token.id = user.id;
+        token.type = user.type;
       }
       return token;
     },
@@ -77,6 +80,7 @@ export const options: NextAuthOptions = {
       if (session?.user) {
         session.user.role = token.role;
         session.user.id = token.id;
+        session.user.type = token.type;
       }
       return session;
     },

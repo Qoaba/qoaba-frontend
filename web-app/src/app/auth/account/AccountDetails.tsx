@@ -8,8 +8,9 @@ import {
   Button,
   Group,
   Box,
+  Tooltip,
 } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
+import { useSession } from "next-auth/react";
 import React from "react";
 import { ModelOverlay } from "./ModalOverlay";
 
@@ -66,6 +67,8 @@ export function AccountDetails({
     setOpenedModals(updatedOpenedModals);
   };
 
+  const { data: session } = useSession();
+
   return (
     <Card p="lg" shadow="md" radius="md" className={classes.card}>
       <Text className={classes.cardTitle}>{title}</Text>
@@ -98,6 +101,7 @@ export function AccountDetails({
                   index < 3 ? theme.colors.dark[3] : theme.colors.red[6],
               }}
               onClick={() => openModal(index)}
+              disabled={session?.user.type === "oauth" && index < 3}
             >
               <Text className={classes.buttonLabel}>
                 {index < 3 ? "Change" : "Delete"}
