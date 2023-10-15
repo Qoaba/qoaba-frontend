@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Card, createStyles, Center } from "@mantine/core";
-import { IconVolume2 } from "@tabler/icons-react"; // Import IconVolume2
+import { IconVolume2 } from "@tabler/icons-react";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -9,6 +9,7 @@ const useStyles = createStyles((theme) => ({
     transition: "transform 0.5s",
     height: "300px",
     position: "relative",
+    borderRadius: "20px", // Increase the border radius
   },
 
   flipped: {
@@ -25,7 +26,7 @@ const useStyles = createStyles((theme) => ({
     fontSize: "24px",
     fontWeight: "bold",
     transformStyle: "preserve-3d",
-    position: "relative", // Add this to ensure position context for the icon
+    position: "relative",
   },
 
   backFace: {
