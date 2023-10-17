@@ -14,7 +14,6 @@ import React from "react";
 import { useSession, signOut } from "next-auth/react";
 import { Form, useForm } from "@mantine/form";
 import { useState } from "react";
-import { sign } from "crypto";
 
 const useStyles = createStyles((theme) => ({
   list: {
@@ -32,7 +31,7 @@ export function ModelOverlay({
 }) {
   const [modalContent, setModalContent] = useState("form");
   const { classes, theme, cx } = useStyles();
-  const { data: session } = useSession();
+  const { data: session, update } = useSession();
 
   const id: string = session!.user.id;
 
@@ -63,6 +62,7 @@ export function ModelOverlay({
     );
 
     if (res.ok) {
+      update({ name: changeUsernameForm.values.name });
       setModalContent("success");
     } else {
       setModalContent("failure");
@@ -97,6 +97,7 @@ export function ModelOverlay({
     });
 
     if (res.ok) {
+      update({ email: changeEmailForm.values.email });
       setModalContent("success");
     } else {
       setModalContent("failure");
@@ -172,9 +173,11 @@ export function ModelOverlay({
 
     if (res.ok) {
       setModalContent("success");
-      await signOut({
-        callbackUrl: "/auth/portal",
-      });
+      setTimeout(async () => {
+        await signOut({
+          callbackUrl: "/auth/portal",
+        });
+      }, 3000);
     } else {
       setModalContent("failure");
     }
@@ -223,8 +226,7 @@ export function ModelOverlay({
           {modalContent === "success" && (
             <>
               <Text mt="md" mb="md">
-                Your username has been successfully updated! To see the changes,
-                please log out and log back in.
+                Your username has been successfully updated!
               </Text>
               <Divider mt="xl" />
               <Group mt="xl" position="right">
@@ -300,8 +302,7 @@ export function ModelOverlay({
           {modalContent === "success" && (
             <>
               <Text mt="md" mb="md">
-                Your email has been successfully updated! To see the changes,
-                please log out and log back in.
+                Your email has been successfully updated!
               </Text>
               <Divider mt="xl" />
               <Group mt="xl" position="right">
@@ -374,8 +375,7 @@ export function ModelOverlay({
           {modalContent === "success" && (
             <>
               <Text mt="md" mb="md">
-                Your password has been successfully updated! To see the changes,
-                please log out and log back in.
+                Your password has been successfully updated!
               </Text>
               <Divider mt="xl" />
               <Group mt="xl" position="right">
@@ -493,8 +493,8 @@ export function ModelOverlay({
           {modalContent === "success" && (
             <>
               <Text mt="md" mb="md">
-                Your email has been successfully updated! To see the changes,
-                please log out and log back in.
+                Your account has been successfully deleted! You will be logged
+                out in 3 seconds.
               </Text>
               <Divider mt="xl" />
               <Group mt="xl" position="right">
