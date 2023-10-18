@@ -8,7 +8,6 @@ import {
   Button,
   Group,
   Box,
-  Tooltip,
 } from "@mantine/core";
 import { useSession } from "next-auth/react";
 import React from "react";

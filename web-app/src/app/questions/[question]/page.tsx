@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import { NotFoundTitle } from "./404page";
 import { HeaderMegaMenu } from "../Header";
-import { FaqSimple } from "./Dropdown";
+import { FaqSimple } from "./dropdown";
+
 import {
   Loader,
   Container,
@@ -14,6 +15,7 @@ import {
 import { SystemQuestions } from "./Test";
 import { FeaturesCard } from "./FlashCard";
 import { FooterLinks } from "../../components/Footer";
+import { useSession } from "next-auth/react";
 
 const footerData = [
   {
@@ -66,6 +68,7 @@ function NavbarSegmented({ setSelectedTab }: NavbarSegmentedProps) {
 }
 
 export default function Page({ params }: { params: { question: string } }) {
+  const { data: session } = useSession();
   const [questionData, setQuestionData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedTab, setSelectedTab] = useState<
@@ -86,6 +89,27 @@ export default function Page({ params }: { params: { question: string } }) {
         setIsLoading(false);
       });
   }, [params.question]);
+
+  useEffect(() => {
+    if (!isLoading && session) {
+      const postData = {
+        userId: session.user.id,
+        questionId: params.question,
+        timeStamp: new Date().toISOString(),
+        isCorrect: false,
+      };
+
+      const apiUrl = `http://localhost:8000/api/stats/attempt`;
+
+      fetch(apiUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(postData),
+      }).then((response) => response.json());
+    }
+  }, [isLoading, session, params.question]);
 
   if (isLoading) {
     return (
@@ -118,9 +142,13 @@ export default function Page({ params }: { params: { question: string } }) {
       </Center>
       <Center>
         <SimpleGrid w={750} cols={1} spacing="lg">
-          {selectedTab === "flash" && <FeaturesCard questionData={questionData}/>}
+          {selectedTab === "flash" && (
+            <FeaturesCard questionData={questionData} />
+          )}
           {selectedTab === "learn" && <FaqSimple questionData={questionData} />}
-          {selectedTab === "test" && <SystemQuestions questionData={questionData} /> }
+          {selectedTab === "test" && (
+            <SystemQuestions questionData={questionData} />
+          )}
         </SimpleGrid>
       </Center>
       {/* Remove Padding if/when the questions push the footer to the bottom*/}

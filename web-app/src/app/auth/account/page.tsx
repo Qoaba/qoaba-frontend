@@ -26,6 +26,7 @@ import {
 } from "@tabler/icons-react";
 import { AccountDetails } from "./AccountDetails";
 import { SystemQuestions } from "./SystemQuestions";
+import { UserPerformance } from "./UserPerformance";
 
 const useStyles = createStyles((theme) => ({
   navbar: {
@@ -273,6 +274,12 @@ export const Account = () => {
             {active === "Questions" && (
               <>
                 <SystemQuestions />
+              </>
+            )}
+
+            {active === "Performance" && (
+              <>
+                <UserPerformance />
               </>
             )}
           </SimpleGrid>
