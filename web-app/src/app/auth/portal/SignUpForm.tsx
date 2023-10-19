@@ -41,7 +41,6 @@ export default function SignUpForm(props: any) {
           name: form.values.name,
         }),
       });
-      console.log(res.json());
 
       if (res.ok) {
         await signIn("credentials", {

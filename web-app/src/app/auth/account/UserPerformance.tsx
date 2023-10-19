@@ -9,25 +9,8 @@ import {
   Group,
   Box,
 } from "@mantine/core";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
-import { Bar } from "react-chartjs-2";
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
+import { useEffect, useState } from "react";
+import { StatsRing } from "./StatsRing";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -58,56 +41,34 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export function UserPerformance() {
+export function UserPerformance({ params }: { params: { userId: string } }) {
   const { classes, theme, cx } = useStyles();
+  const [statData, setStatData] = useState<any>(null);
 
-  const chartData = {
-    labels: ["Label 1", "Label 2", "Label 3"],
-    datasets: [
-      {
-        label: "Dataset Label",
-        data: [10, 20, 30],
-        backgroundColor:
-          theme.colorScheme === "dark"
-            ? "rgba(255, 99, 132, 0.2)"
-            : "rgba(75,192,192,0.2)",
-        borderColor:
-          theme.colorScheme === "dark"
-            ? "rgba(255, 99, 132, 1)"
-            : "rgba(75,192,192,1)",
-        borderWidth: 1,
-      },
-    ],
-  };
+  useEffect(() => {
+    const apiUrl = `http://localhost:8000/api/stats/${params.userId}/attempts`;
 
-  const chartOptions = {
-    responsive: true,
-    scales: {
-      x: {
-        beginAtZero: true,
-        ticks: {
-          color: theme.colorScheme === "dark" ? theme.white : theme.black,
-        },
+    fetch(apiUrl, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
       },
-      y: {
-        beginAtZero: true,
-        ticks: {
-          color: theme.colorScheme === "dark" ? theme.white : theme.black,
-        },
-      },
-    },
-    plugins: {
-      legend: {
-        labels: {
-          color: theme.colorScheme === "dark" ? theme.white : theme.black,
-        },
-      },
-    },
-  };
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setStatData(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, [params.userId]);
 
   return (
-    <Card p="lg" shadow="md" radius="md" className={classes.card}>
-      <Bar data={chartData} options={chartOptions} />
-    </Card>
+    <>
+      <StatsRing params={{ stats: statData }} />
+      <Card p="lg" shadow="md" radius="md" className={classes.card}>
+        <></>
+      </Card>
+    </>
   );
 }

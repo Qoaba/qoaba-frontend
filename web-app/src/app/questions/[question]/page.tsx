@@ -95,11 +95,11 @@ export default function Page({ params }: { params: { question: string } }) {
       const postData = {
         userId: session.user.id,
         questionId: params.question,
-        timeStamp: new Date().toISOString(),
+        timestamp: new Date().toISOString(),
         isCorrect: false,
       };
 
-      const apiUrl = `http://localhost:8000/api/stats/attempt`;
+      const apiUrl = `http://localhost:8000/api/stats/`;
 
       fetch(apiUrl, {
         method: "POST",
