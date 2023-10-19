@@ -279,7 +279,7 @@ export const Account = () => {
 
             {active === "Performance" && (
               <>
-                <UserPerformance />
+                <UserPerformance params={{ userId: session.user.id }} />
               </>
             )}
           </SimpleGrid>

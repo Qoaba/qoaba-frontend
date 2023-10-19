@@ -25,7 +25,6 @@
     "@types/react": "18.2.18",
     "@types/react-dom": "18.2.7",
     "axios": "^1.4.0",
-    "chart.js": "^4.4.0",
     "eslint-config-next": "13.4.12",
     "mongodb": "^5.7.0",
     "mongoose": "^7.4.3",
@@ -33,7 +32,6 @@
     "next-auth": "^4.23.0",
     "next-fonts": "^1.5.1",
     "react": "18.2.0",
-    "react-chartjs-2": "^5.2.0",
     "react-dom": "18.2.0"
   },
   "devDependencies": {
